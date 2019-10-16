@@ -56,7 +56,7 @@ export default class CategorySelector extends Component {
   render() {
     return (
       <View>
-        <FixedTopBar title="기본 화면"></FixedTopBar>
+        <FixedTopBar title="기본 화면" />
         <ScrollView>
           <FlatList style={styles.container}
                     renderItem={({ item }) => this.renderItem(item)}

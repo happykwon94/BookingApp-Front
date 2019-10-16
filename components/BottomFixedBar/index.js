@@ -3,14 +3,13 @@ import { Appbar } from 'react-native-paper';
 import { StyleSheet, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-export default class FixedTopBar extends Component {
+export default class BottomFixedBar extends Component {
 
   render() {
-    const { title } = this.props;
     return (
-      <Appbar style={appBarStyles.topFixed}>
+      <Appbar style={appBarStyles.bottomFixed}>
         {/* <Icon name="wb-sunny" size={25} color="#ffffff" style={{marginLeft: 7}} /> */}
-        <Text style={appBarStyles.titleStyle}>{title}</Text>
+        <Text style={appBarStyles.titleStyle}>예약 버튼, 취소 버튼 등을 배치</Text>
         {/* <Appbar.Action style={appBarStyles.iconsStyle} icon="home" onPress={() => console.log('Pressed archive')} />
         <Appbar.Action style={appBarStyles.iconsStyle} icon="archive" onPress={() => console.log('Pressed archive')} />
         <Appbar.Action style={appBarStyles.iconsStyle} icon="star" onPress={() => console.log('Pressed mail')} />*/}
@@ -20,11 +19,11 @@ export default class FixedTopBar extends Component {
 }
 
 const appBarStyles = StyleSheet.create({
-  topFixed: {
+  bottomFixed: {
     position: 'absolute',
     left: 0,
     right: 0,
-    top: 0,
+    bottom: 0,
     backgroundColor: '#cfcfcf',
   },
 

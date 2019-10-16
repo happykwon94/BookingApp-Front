@@ -54,9 +54,12 @@ export default class StoreSelector extends Component {
   }
 
   render() {
+
+    const { navigation } = this.props;
+
     return (
       <View>
-        <FixedTopBar />
+        <FixedTopBar title={navigation.getParam('category', null)}/>
         <ScrollView>
           <FlatList style={styles.container}
                     renderItem={({ item }) => this.renderItem(item)}

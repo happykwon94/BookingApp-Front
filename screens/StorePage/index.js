@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
-import FixedTopBar from '../../components/FixedTopBar';
 import { Avatar, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
+
+import FixedTopBar from '../../components/FixedTopBar';
+import BottomFixedBar from '../../components/BottomFixedBar';
 
 // API URL
 const API_STORE_INFO = 'http://10.0.2.2:8080/.../...';
@@ -16,9 +18,8 @@ export default class StorePage extends Component {
     super(props);
 
     this.state = {
-      title: "상점1",
-      info: "상점에 대한 설명",
-      menus: ["메뉴1", "메뉴2", "메뉴3", "메뉴4"],
+      info: "상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명",
+      menus: ["메뉴1", "메뉴2", "메뉴3", "메뉴4", "메뉴5", "메뉴6"],
     };
   }
 
@@ -33,17 +34,57 @@ export default class StorePage extends Component {
     // });
   }
 
-  render() {
+  onPressItem(item) {
+    this.props.navigation.navigate(
+      'Reservation',
+      {
+        selectedItem: item
+      }
+    );
+  }
+
+  renderItem(menu) {
     return (
       <View>
-        <FixedTopBar />
+        <Card>
+          <TouchableOpacity onPress={() => this.onPressItem(menu)}>
+            <Card.Title title={menu} subtitle="대표 메뉴들..." left={(props) => <Avatar.Icon {...props} icon="folder" />} />
+          </TouchableOpacity>
+        </Card>
+        <Divider />
+      </View>
+    );
+  }
+
+  render() {
+
+    const { navigation } = this.props;
+
+    return (
+      <View>
+        <FixedTopBar title={navigation.getParam('store', null)} />
         <ScrollView>
-          <FlatList style={styles.container}
-                    renderItem={({ item }) => this.renderItem(item)}
+        <View style={styles.container}>
+          <View>
+
+          <Card>
+            <Card.Content>
+              <Title>Store Information</Title>
+              <Paragraph>{this.state.info}</Paragraph>
+            </Card.Content>
+          </Card>
+
+          <Divider />
+
+          <FlatList renderItem={({ item }) => this.renderItem(item)}
                     keyExtractor={item => item}
-                    data={this.state.stores}
+                    data={this.state.menus}
           />
+
+          </View>
+        </View>
         </ScrollView>
+        <BottomFixedBar />
       </View>
     );
   }
