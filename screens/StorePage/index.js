@@ -64,25 +64,21 @@ export default class StorePage extends Component {
       <View>
         <FixedTopBar title={navigation.getParam('store', null)} />
         <ScrollView>
-        <View style={styles.container}>
-          <View>
+          <View style={styles.container}>
+            <Card>
+              <Card.Content>
+                <Title>Store Information</Title>
+                <Paragraph>{this.state.info}</Paragraph>
+              </Card.Content>
+            </Card>
 
-          <Card>
-            <Card.Content>
-              <Title>Store Information</Title>
-              <Paragraph>{this.state.info}</Paragraph>
-            </Card.Content>
-          </Card>
+            <Divider />
 
-          <Divider />
-
-          <FlatList renderItem={({ item }) => this.renderItem(item)}
-                    keyExtractor={item => item}
-                    data={this.state.menus}
-          />
-
+            <FlatList renderItem={({ item }) => this.renderItem(item)}
+                      keyExtractor={item => item}
+                      data={this.state.menus}
+            />
           </View>
-        </View>
         </ScrollView>
         <BottomFixedBar />
       </View>

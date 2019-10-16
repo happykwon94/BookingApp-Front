@@ -69,7 +69,6 @@ export default class CategorySelector extends Component {
   }
 }
 
-// flex1이 아이콘들을 오른쪽에 붙게함
 const styles = StyleSheet.create({
   container: {
     flex: 1,

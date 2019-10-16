@@ -4,9 +4,6 @@ import { Avatar, Button, Card, Title, Paragraph, Divider, DataTable } from 'reac
 
 import FixedTopBar from '../../components/FixedTopBar';
 
-// API URL
-const API_POS_DATA = 'http://10.0.2.2:8080/.../...';
-
 export default class Reservation extends Component {
 
   static navigationOptions = {
@@ -15,21 +12,6 @@ export default class Reservation extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-
-    };
-  }
-
-  async componentDidMount() {
-    // fetch(API_CATEGORIES)
-    // .then(response => response.json())
-    // .then(categories => {
-    //   // console.log('cities =', cities.length);
-    //   this.setState({
-    //     categories
-    //   });
-    // });
   }
 
   render() {
@@ -42,6 +24,25 @@ export default class Reservation extends Component {
         <ScrollView>
           <View style={styles.container}>
 
+            <DataTable>
+              <DataTable.Header>
+                <DataTable.Title>예약 항목</DataTable.Title>
+                <DataTable.Title>예약 시간</DataTable.Title>
+                <DataTable.Title numeric>예약 인원</DataTable.Title>
+              </DataTable.Header>
+
+              <DataTable.Row>
+                <DataTable.Cell numeric>항목1</DataTable.Cell>
+                <DataTable.Cell numeric>12:00 ~ 13:00</DataTable.Cell>
+                <DataTable.Cell numeric>6</DataTable.Cell>
+              </DataTable.Row>
+
+              <DataTable.Row>
+                <DataTable.Cell numeric>항목2</DataTable.Cell>
+                <DataTable.Cell numeric>16:00 ~ 17:00</DataTable.Cell>
+                <DataTable.Cell numeric>3</DataTable.Cell>
+              </DataTable.Row>
+            </DataTable>
 
             <Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
               OK
