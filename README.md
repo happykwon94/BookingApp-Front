@@ -17,6 +17,8 @@
 > react-navigation-stack 1.9.4
 >
 > react-native-splash-screen
+>
+> react-native-super-grid 3.1.1
 
 
 ### How to use

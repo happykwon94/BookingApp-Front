@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import FixedTopBar from '../../components/FixedTopBar';
 import { Avatar, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
+import { FlatGrid } from 'react-native-super-grid';
 
 // API URL
 const API_CATEGORIES = 'http://10.0.2.2:8080/.../...';
@@ -16,7 +17,25 @@ export default class CategorySelector extends Component {
     super(props);
 
     this.state = {
-      categories: ["항목1", "항목2", "항목3", "항목4"],
+        categories: [
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
+      ]
     };
   }
 
@@ -40,30 +59,21 @@ export default class CategorySelector extends Component {
     );
   }
 
-  renderItem(category) {
-    return (
-      <View>
-        <Card>
-          <TouchableOpacity onPress={() => this.onPressItem(category)}>
-            <Card.Title title={category} subtitle="" left={(props) => <Avatar.Icon {...props} icon="folder" />} />
-          </TouchableOpacity>
-        </Card>
-        <Divider />
-      </View>
-    );
-  }
-
   render() {
     return (
-      <View>
-        <FixedTopBar title="기본 화면" />
-        <ScrollView>
-          <FlatList style={styles.container}
-                    renderItem={({ item }) => this.renderItem(item)}
-                    keyExtractor={item => item}
-                    data={this.state.categories}
-          />
-        </ScrollView>
+      <View style={styles.container}>
+        <FlatGrid
+          itemDimension={100}
+          items={this.state.categories}
+          style={gridStyles.gridView}
+          renderItem={({ item, index }) => (
+            <TouchableOpacity onPress={() => this.onPressItem(item.name)}>
+              <View style={[gridStyles.itemContainer, { backgroundColor: item.color }]}>
+                <Text style={itemStyles.itemName}>{item.name}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
       </View>
     );
   }
@@ -91,5 +101,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+});
 
+const gridStyles = StyleSheet.create({
+  gridView: {
+    flex: 1,
+  },
+  itemContainer: {
+    justifyContent: 'flex-end',
+    borderRadius: 5,
+    padding: 10,
+    height: 150,
+  },
+});
+
+const itemStyles = StyleSheet.create({
+  itemName: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: '600',
+  },
 });
