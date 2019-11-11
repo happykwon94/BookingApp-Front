@@ -9,6 +9,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.oblador.vectoricons.VectorIconsPackage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -34,10 +35,11 @@ public class MainApplication extends Application implements ReactApplication {
           // List<ReactPackage> packages = new PackageList(this).getPackages();
 
           return Arrays.<ReactPackage>asList(
-                    new MainReactPackage(),
+            new MainReactPackage(),
             new RNGestureHandlerPackage(),
-            new SplashScreenReactPackage()  //here
-            );
+            new SplashScreenReactPackage(),
+            new VectorIconsPackage()
+          );
           // return packages;
         }
 

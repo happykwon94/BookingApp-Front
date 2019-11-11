@@ -9,10 +9,9 @@ export default class BottomFixedBar extends Component {
     return (
       <Appbar style={appBarStyles.bottomFixed}>
         {/* <Icon name="wb-sunny" size={25} color="#ffffff" style={{marginLeft: 7}} /> */}
-        <Text style={appBarStyles.titleStyle}>예약 버튼, 취소 버튼 등을 배치</Text>
-        {/* <Appbar.Action style={appBarStyles.iconsStyle} icon="home" onPress={() => console.log('Pressed archive')} />
+        <Appbar.Action style={appBarStyles.iconsStyle} icon="home" onPress={() => console.log('Pressed archive')} />
         <Appbar.Action style={appBarStyles.iconsStyle} icon="archive" onPress={() => console.log('Pressed archive')} />
-        <Appbar.Action style={appBarStyles.iconsStyle} icon="star" onPress={() => console.log('Pressed mail')} />*/}
+        <Appbar.Action style={appBarStyles.iconsStyle} icon="star" onPress={() => console.log('Pressed mail')} />
       </Appbar>
     );
   }
