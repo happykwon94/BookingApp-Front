@@ -39,15 +39,10 @@ export default class CategorySelector extends Component {
     };
   }
 
+  // CategorySelector는 DB에서 따로 Data를 fetch하지 않음.
+  // 서비스의 분류별로 데이터를 갖고 있게 만든다.
   async componentDidMount() {
-    // fetch(API_CATEGORIES)
-    // .then(response => response.json())
-    // .then(categories => {
-    //   // console.log('cities =', cities.length);
-    //   this.setState({
-    //     categories
-    //   });
-    // });
+
   }
 
   onPressItem(item) {
@@ -61,20 +56,23 @@ export default class CategorySelector extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <FlatGrid
-          itemDimension={100}
-          items={this.state.categories}
-          style={gridStyles.gridView}
-          renderItem={({ item, index }) => (
-            <TouchableOpacity onPress={() => this.onPressItem(item.name)}>
-              <View style={[gridStyles.itemContainer, { backgroundColor: item.color }]}>
-                <Text style={itemStyles.itemName}>{item.name}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
+      <>
+      <FixedTopBar title="서비스 카테고리 선택" />
+        <View style={styles.container}>
+          <FlatGrid
+            itemDimension={100}
+            items={this.state.categories}
+            style={gridStyles.gridView}
+            renderItem={({ item, index }) => (
+              <TouchableOpacity onPress={() => this.onPressItem(item.name)}>
+                <View style={[gridStyles.itemContainer, { backgroundColor: item.color }]}>
+                  <Text style={itemStyles.itemName}>{item.name}</Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
       </View>
+      </>
     );
   }
 }
@@ -82,7 +80,7 @@ export default class CategorySelector extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 50,
+    marginTop: 60,
     backgroundColor: '#ffffff',
   },
   text: {
