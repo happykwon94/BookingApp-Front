@@ -42,34 +42,55 @@ export default class Reservation extends Component {
     return (
       <>
       <View>
-        <FixedTopBar title={navigation.getParam('selectedItem', null)} />
+        <FixedTopBar title={"예약"} />
         <ScrollView>
           <View style={styles.container}>
             <DataTable>
               <DataTable.Header>
-                <DataTable.Title>예약 항목</DataTable.Title>
-                <DataTable.Title>예약 시간</DataTable.Title>
+                <DataTable.Title numeric>성함</DataTable.Title>
+                <DataTable.Title numeric>핸드폰 번호</DataTable.Title>
+              </DataTable.Header>
+              <DataTable.Row>
+                <DataTable.Cell numeric>fefe</DataTable.Cell>
+                <DataTable.Cell numeric>fefe</DataTable.Cell>
+              </DataTable.Row>
+            </DataTable>
+
+            <DataTable>
+              <DataTable.Header>
+                <DataTable.Title numeric>예약 시간</DataTable.Title>
+              </DataTable.Header>
+              <DataTable.Row>
+                <DataTable.Cell numeric>12:00 ~ 13:00</DataTable.Cell>
+              </DataTable.Row>
+            </DataTable>
+
+            <DataTable>
+              <DataTable.Header>
+                <DataTable.Title numeric>예약 항목</DataTable.Title>
                 <DataTable.Title numeric>예약 인원</DataTable.Title>
+                <DataTable.Title numeric>가격</DataTable.Title>
               </DataTable.Header>
 
               <DataTable.Row>
                 <DataTable.Cell numeric>항목1</DataTable.Cell>
-                <DataTable.Cell numeric>12:00 ~ 13:00</DataTable.Cell>
                 <DataTable.Cell numeric>6</DataTable.Cell>
+                <DataTable.Cell numeric>1000</DataTable.Cell>
               </DataTable.Row>
 
               <DataTable.Row>
                 <DataTable.Cell numeric>항목2</DataTable.Cell>
-                <DataTable.Cell numeric>16:00 ~ 17:00</DataTable.Cell>
                 <DataTable.Cell numeric>3</DataTable.Cell>
+                <DataTable.Cell numeric>3000</DataTable.Cell>
               </DataTable.Row>
             </DataTable>
           </View>
         </ScrollView>
       </View>
+
       <Appbar style={appBarStyles.bottomFixed}>
-       <Appbar.Content titleStyle={styles.reserveBtn} title="예약하기" onPress={() => console.log("1")}/>
-       <Appbar.Content titleStyle={styles.reserveBtn} title="취소하기" onPress={() => console.log("2")}/>
+        <Appbar.Content titleStyle={styles.reserveBtn} title="예약하기" onPress={() => console.log("1")}/>
+        <Appbar.Content titleStyle={styles.reserveBtn} title="취소하기" onPress={() => console.log("2")}/>
       </Appbar>
       </>
     );
