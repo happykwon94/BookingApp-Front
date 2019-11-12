@@ -3,7 +3,10 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from '
 import { Avatar, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
 
 import FixedTopBar from '../../components/FixedTopBar';
-import BottomFixedBar from '../../components/BottomFixedBar';
+
+import { Appbar } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 // API URL
 const API_STORE_INFO = 'http://10.0.2.2:8080/.../...';
@@ -33,6 +36,15 @@ export default class StorePage extends Component {
     //   });
     // });
   }
+
+  toRervationPage() {
+    this.props.navigation.navigate(
+      'Reservation',
+      {
+        selectedItem: ""
+      }
+    );
+  };
 
   onPressItem(item) {
     this.props.navigation.navigate(
@@ -80,17 +92,48 @@ export default class StorePage extends Component {
             />
           </View>
         </ScrollView>
-        <BottomFixedBar />
+        <Appbar style={appBarStyles.bottomFixed}>
+          {/* <Icon name="wb-sunny" size={25} color="#ffffff" style={{marginLeft: 7}} /> */}
+          <Appbar.Action style={appBarStyles.iconsStyle} icon="arrow-forward" onPress={() => this.toRervationPage()} />
+        </Appbar>
       </View>
     );
   }
-
 }
+
+const appBarStyles = StyleSheet.create({
+  bottomFixed: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#cfcfcf',
+  },
+
+  titleStyle: {
+    marginLeft: 15,
+    fontFamily: 'JejuGothic',
+    color: '#000000',
+    fontSize: 20,
+    flex: 1,
+  },
+
+  iconsStartStyle: {
+    alignSelf: 'flex-start',
+  },
+
+  iconsEndStyle: {
+    alignSelf: 'flex-end',
+  }
+});
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 50,
+    // marginBottom은 BottomFixedAppbar의 높이가 되게 넣을 것
+    marginBottom: 55,
     backgroundColor: '#ffffff',
   },
 });

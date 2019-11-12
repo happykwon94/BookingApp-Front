@@ -4,6 +4,9 @@ import { Avatar, Button, Card, Title, Paragraph, Divider, DataTable } from 'reac
 
 import FixedTopBar from '../../components/FixedTopBar';
 
+import { Appbar } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 // API URL
 const API_POS_DATA = 'http://10.0.2.2:8080/.../...';
 
@@ -37,21 +40,38 @@ export default class Reservation extends Component {
     const { navigation } = this.props;
 
     return (
+      <>
       <View>
         <FixedTopBar title={navigation.getParam('selectedItem', null)} />
         <ScrollView>
           <View style={styles.container}>
+            <DataTable>
+              <DataTable.Header>
+                <DataTable.Title>예약 항목</DataTable.Title>
+                <DataTable.Title>예약 시간</DataTable.Title>
+                <DataTable.Title numeric>예약 인원</DataTable.Title>
+              </DataTable.Header>
 
+              <DataTable.Row>
+                <DataTable.Cell numeric>항목1</DataTable.Cell>
+                <DataTable.Cell numeric>12:00 ~ 13:00</DataTable.Cell>
+                <DataTable.Cell numeric>6</DataTable.Cell>
+              </DataTable.Row>
 
-            <Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
-              OK
-            </Button>
-            <Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
-              Cancel
-            </Button>
+              <DataTable.Row>
+                <DataTable.Cell numeric>항목2</DataTable.Cell>
+                <DataTable.Cell numeric>16:00 ~ 17:00</DataTable.Cell>
+                <DataTable.Cell numeric>3</DataTable.Cell>
+              </DataTable.Row>
+            </DataTable>
           </View>
         </ScrollView>
       </View>
+      <Appbar style={appBarStyles.bottomFixed}>
+       <Appbar.Content titleStyle={styles.reserveBtn} title="예약하기" onPress={() => console.log("1")}/>
+       <Appbar.Content titleStyle={styles.reserveBtn} title="취소하기" onPress={() => console.log("2")}/>
+      </Appbar>
+      </>
     );
   }
 }
@@ -79,5 +99,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  reserveBtn: {
+    fontSize: 18,
+    textAlign: 'center',
+    fontFamily: 'JejuGothic'
+  }
 
+});
+
+const appBarStyles = StyleSheet.create({
+  bottomFixed: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#cfcfcf',
+  },
+
+  titleStyle: {
+    marginLeft: 15,
+    fontFamily: 'JejuGothic',
+    color: '#000000',
+    fontSize: 20,
+    flex: 1,
+  },
+
+  iconsStartStyle: {
+    alignSelf: 'flex-start',
+  },
+
+  iconsEndStyle: {
+    alignSelf: 'flex-end',
+  }
 });
