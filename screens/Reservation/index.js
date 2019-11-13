@@ -11,6 +11,8 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 import Modal from 'react-native-modal';
 
+import TimePicker from "react-native-24h-timepicker";
+
 // API URL
 const API_POS_DATA = 'http://10.0.2.2:8080/.../...';
 
@@ -26,7 +28,9 @@ export default class Reservation extends Component {
     this.state = {
       name : "",
       phoneNum: "",
-      visibleCandedarModal: null,
+      selectedTime: "",
+      selectedDate: "",
+      visibleCandedarModal: null
     };
   }
 
@@ -41,15 +45,32 @@ export default class Reservation extends Component {
     // });
   }
 
+  onTimePickerCancel() {
+    this.TimePicker.close();
+  }
+
+  onTimePickerConfirm(hour, minute) {
+    this.setState({ selectedTime : `${hour}:${minute}` });
+    this.TimePicker.close();
+  }
+
   calendarModalRender = () => (
+
     <>
+      <View style={modalBoxStyles.selectedDateTiemContainer}>
+        <Text style={modalBoxStyles.selectedDateTime}>예약 날짜 : {this.state.selectedDate}</Text>
+        <Text style={modalBoxStyles.selectedDateTime}>예약 시간 : {this.state.selectedTime}</Text>
+      </View>
       <Calendar
-        current={'2012-03-01'}
-        minDate={'2012-01-10'}
-        maxDate={'2012-05-30'}
-        onDayPress={(day) => {console.log('selected day', day)}}
+        current={`${new Date().getFullYear()}-${new Date().getMonth() + 1}`}
+        minDate={`${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`}
+        onDayPress={
+          (day) => {
+            this.setState({ selectedDate : day.dateString });
+            this.TimePicker.open();
+           }
+         }
         monthFormat={'yyyy MM'}
-        onMonthChange={(month) => {console.log('month changed', month)}}
         hideExtraDays={true}
         disableMonthChange={false}
         firstDay={1}
@@ -57,6 +78,21 @@ export default class Reservation extends Component {
         showWeekNumbers={true}
         onPressArrowLeft={substractMonth => substractMonth()}
         onPressArrowRight={addMonth => addMonth()}
+      />
+      <TouchableOpacity
+        onPress={() => console.log("s")}
+        style={modalBoxStyles.timePickerBtn}
+      >
+        <Text style={modalBoxStyles.timePickerBtn}>예약</Text>
+      </TouchableOpacity>
+      <TimePicker
+        ref={ref => {
+          this.TimePicker = ref;
+        }}
+        onCancel={() => this.onTimePickerCancel()}
+        onConfirm={(hour, minute) => this.onTimePickerConfirm(hour, minute)}
+        hourInterval="1"
+        minuteInterval="30"
       />
     </>
   );
@@ -219,6 +255,35 @@ const appBarStyles = StyleSheet.create({
 
   iconsEndStyle: {
     alignSelf: 'flex-end',
+  },
+
+});
+
+const modalBoxStyles = StyleSheet.create({
+
+  timePickerBtn: {
+    fontSize: 30,
+    textAlign: 'center',
+    fontFamily: 'JejuGothic',
+    backgroundColor: "#c9c9c9",
+    paddingVertical: 1,
+    paddingHorizontal: 17,
+    borderRadius: 3,
+    marginVertical: 50
+  },
+
+  selectedDateTime: {
+    fontSize: 15,
+    fontFamily: 'JejuGothic',
+    lineHeight: 30,
+  },
+
+  selectedDateTiemContainer: {
+    backgroundColor: "#c9c9c9",
+    paddingVertical: 1,
+    paddingHorizontal: 17,
+    borderRadius: 3,
+    marginVertical: 50,
   },
 
 });
