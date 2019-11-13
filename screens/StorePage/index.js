@@ -74,7 +74,7 @@ export default class StorePage extends Component {
 
     return (
       <View>
-        <FixedTopBar title={navigation.getParam('store', null)} />
+        <FixedTopBar title={navigation.getParam('store', null)} iconStr="" />
         <ScrollView>
           <View style={styles.container}>
             <Card>
@@ -102,6 +102,7 @@ export default class StorePage extends Component {
 }
 
 const appBarStyles = StyleSheet.create({
+
   bottomFixed: {
     position: 'absolute',
     left: 0,
@@ -125,10 +126,12 @@ const appBarStyles = StyleSheet.create({
   iconsEndStyle: {
     alignSelf: 'flex-end',
   }
+
 });
 
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     marginTop: 50,
@@ -136,4 +139,5 @@ const styles = StyleSheet.create({
     marginBottom: 55,
     backgroundColor: '#ffffff',
   },
+  
 });

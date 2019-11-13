@@ -19,6 +19,14 @@
 > react-native-splash-screen
 >
 > react-native-super-grid 3.1.1
+>
+> react-native-vector-icons 6.6.0
+>
+> react-navigation 4.0.10
+>
+> react-native-calendars
+>
+> react-native-modal
 
 
 ### How to use

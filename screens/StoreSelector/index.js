@@ -59,7 +59,7 @@ export default class StoreSelector extends Component {
 
     return (
       <View>
-        <FixedTopBar title={navigation.getParam('category', null)}/>
+        <FixedTopBar title={navigation.getParam('category', null)} iconStr="" />
         <ScrollView>
           <FlatList style={styles.container}
                     renderItem={({ item }) => this.renderItem(item)}
@@ -74,6 +74,7 @@ export default class StoreSelector extends Component {
 
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     marginTop: 50,

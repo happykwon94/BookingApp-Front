@@ -57,7 +57,7 @@ export default class CategorySelector extends Component {
   render() {
     return (
       <>
-      <FixedTopBar title="서비스 카테고리 선택" />
+      <FixedTopBar title="서비스 카테고리 선택" iconStr = ""/>
         <View style={styles.container}>
           <FlatGrid
             itemDimension={100}
@@ -78,45 +78,56 @@ export default class CategorySelector extends Component {
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     marginTop: 60,
     backgroundColor: '#ffffff',
   },
+
   text: {
     fontFamily: 'JejuGothic',
     marginBottom: 10,
     fontSize: 16,
   },
+
   cardContainer:{
     backgroundColor: '#f5f5f5',
   },
+
   cityTitle: {
     fontSize: 35,
   },
+
   ActivityIndicatorStyle:{
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
+
 });
 
 const gridStyles = StyleSheet.create({
+
   gridView: {
     flex: 1,
   },
+
   itemContainer: {
     justifyContent: 'flex-end',
     borderRadius: 5,
     padding: 10,
     height: 150,
   },
+
 });
 
 const itemStyles = StyleSheet.create({
+
   itemName: {
     fontSize: 16,
     color: '#fff',
     fontWeight: '600',
   },
+  
 });

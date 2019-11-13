@@ -6,14 +6,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 export default class FixedTopBar extends Component {
 
   render() {
-    const { title } = this.props;
+    const { title, iconStr } = this.props;
+
     return (
       <Appbar style={appBarStyles.topFixed}>
-        {/* <Icon name="wb-sunny" size={25} color="#ffffff" style={{marginLeft: 7}} /> */}
+        {iconStr !== "" ? <Icon name={iconStr} size={25} color="#ffffff" style={{marginLeft: 7}} />: <Icon />}
         <Text style={appBarStyles.titleStyle}>{title}</Text>
-        {/* <Appbar.Action style={appBarStyles.iconsStyle} icon="home" onPress={() => console.log('Pressed archive')} />
-        <Appbar.Action style={appBarStyles.iconsStyle} icon="archive" onPress={() => console.log('Pressed archive')} />
-        <Appbar.Action style={appBarStyles.iconsStyle} icon="star" onPress={() => console.log('Pressed mail')} />*/}
+
       </Appbar>
     );
   }
