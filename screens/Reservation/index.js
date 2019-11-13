@@ -45,15 +45,6 @@ export default class Reservation extends Component {
     // });
   }
 
-  onTimePickerCancel() {
-    this.TimePicker.close();
-  }
-
-  onTimePickerConfirm(hour, minute) {
-    this.setState({ selectedTime : `${hour}:${minute}` });
-    this.TimePicker.close();
-  }
-
   calendarModalRender = () => (
 
     <>
@@ -67,7 +58,7 @@ export default class Reservation extends Component {
         onDayPress={
           (day) => {
             this.setState({ selectedDate : day.dateString });
-            this.TimePicker.open();
+            this.StartTimePicker.open();
            }
          }
         monthFormat={'yyyy MM'}
@@ -80,17 +71,37 @@ export default class Reservation extends Component {
         onPressArrowRight={addMonth => addMonth()}
       />
       <TouchableOpacity
-        onPress={() => console.log("s")}
+        onPress={() => this.setState({ visibleModal: undefined })}
         style={modalBoxStyles.timePickerBtn}
       >
         <Text style={modalBoxStyles.timePickerBtn}>예약</Text>
       </TouchableOpacity>
+
+      {/* Start TimePicker */}
       <TimePicker
         ref={ref => {
-          this.TimePicker = ref;
+          this.StartTimePicker = ref;
         }}
-        onCancel={() => this.onTimePickerCancel()}
-        onConfirm={(hour, minute) => this.onTimePickerConfirm(hour, minute)}
+        onCancel={() => this.StartTimePicker.close()}
+        onConfirm={(hour, minute) => {
+          this.setState({ selectedTime : `${hour}:${minute}` });
+          this.EndTimePicker.open();
+          this.StartTimePicker.close()
+        }}
+        hourInterval="1"
+        minuteInterval="30"
+      />
+
+      {/* End TimePicker */}
+      <TimePicker
+        ref={ref => {
+          this.EndTimePicker = ref;
+        }}
+        onCancel={() => this.EndTimePicker.close()}
+        onConfirm={(hour, minute) => {
+           this.setState({ selectedTime : `${this.state.selectedTime}-${hour}:${minute}` });
+           this.EndTimePicker.close();
+        }}
         hourInterval="1"
         minuteInterval="30"
       />
@@ -142,11 +153,13 @@ export default class Reservation extends Component {
 
               <DataTable>
                 <DataTable.Header>
-                  <DataTable.Title>예약 시간</DataTable.Title>
+                  <DataTable.Title>예약 날짜 및 시간</DataTable.Title>
                 </DataTable.Header>
                 <DataTable.Row>
                   <TouchableOpacity onPress={() => this.setState({ visibleModal: 2 })}>
-                    <DataTable.Cell>12:00 ~ 13:00</DataTable.Cell>
+                    <DataTable.Cell>
+                      {this.state.selectedDate !== "" ? `${this.state.selectedDate}, ${this.state.selectedTime}` : "터치하여 예약 시간을 선택하세요."}
+                    </DataTable.Cell>
                   </TouchableOpacity>
                 </DataTable.Row>
               </DataTable>
