@@ -3,10 +3,10 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from '
 import { Avatar, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
 
 import FixedTopBar from '../../components/FixedTopBar';
+import MenuSelector from '../../components/MenuSelector';
 
 import { Appbar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
 
 // API URL
 const API_STORE_INFO = 'http://10.0.2.2:8080/.../...';
@@ -41,18 +41,13 @@ export default class StorePage extends Component {
     this.props.navigation.navigate(
       'Reservation',
       {
-        selectedItem: ""
+        menus: this.state.menus,
       }
     );
   };
 
   onPressItem(item) {
-    this.props.navigation.navigate(
-      'Reservation',
-      {
-        selectedItem: item
-      }
-    );
+
   }
 
   renderItem(menu) {
@@ -73,30 +68,26 @@ export default class StorePage extends Component {
     const { navigation } = this.props;
 
     return (
-      <View>
+      <>
         <FixedTopBar title={navigation.getParam('store', null)} iconStr="" />
-        <ScrollView>
-          <View style={styles.container}>
-            <Card>
-              <Card.Content>
-                <Title>Store Information</Title>
-                <Paragraph>{this.state.info}</Paragraph>
-              </Card.Content>
-            </Card>
 
-            <Divider />
+        <ScrollView style={styles.container}>
+          <Card>
+            <Card.Content>
+              <Title>Store Information</Title>
+              <Paragraph>{this.state.info}</Paragraph>
+            </Card.Content>
+          </Card>
 
-            <FlatList renderItem={({ item }) => this.renderItem(item)}
-                      keyExtractor={item => item}
-                      data={this.state.menus}
-            />
-          </View>
+          <Divider />
+          <MenuSelector menus={this.state.menus} menuClickEvent={()=>console.log("dd")}/>
         </ScrollView>
+
         <Appbar style={appBarStyles.bottomFixed}>
           {/* <Icon name="wb-sunny" size={25} color="#ffffff" style={{marginLeft: 7}} /> */}
           <Appbar.Action style={appBarStyles.iconsStyle} icon="arrow-forward" onPress={() => this.toRervationPage()} />
         </Appbar>
-      </View>
+      </>
     );
   }
 }
@@ -104,7 +95,6 @@ export default class StorePage extends Component {
 const appBarStyles = StyleSheet.create({
 
   bottomFixed: {
-    position: 'absolute',
     left: 0,
     right: 0,
     bottom: 0,
@@ -136,8 +126,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 50,
     // marginBottom은 BottomFixedAppbar의 높이가 되게 넣을 것
-    marginBottom: 55,
+
+    // marginBottom은 BottomFixedAppbar의 높이가 되게 넣을 것
     backgroundColor: '#ffffff',
   },
-  
+
 });

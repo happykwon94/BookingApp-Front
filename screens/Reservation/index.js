@@ -6,6 +6,7 @@ import FixedTopBar from '../../components/FixedTopBar';
 
 import { Appbar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import MenuSelector from '../../components/MenuSelector';
 
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
@@ -18,8 +19,12 @@ const API_POS_DATA = 'http://10.0.2.2:8080/.../...';
 
 export default class Reservation extends Component {
 
-  static navigationOptions = {
-    header: null
+  static navigationOptions = ({ navigation }) => {
+
+    return {
+      header: null,
+      menus: navigation.getParam('menus', 'Unknown')
+    };
   };
 
   constructor(props) {
@@ -30,7 +35,8 @@ export default class Reservation extends Component {
       phoneNum: "",
       selectedTime: "",
       selectedDate: "",
-      visibleCandedarModal: null
+      dateTimeSelectorModal: null,
+      menuModal: null
     };
   }
 
@@ -44,6 +50,36 @@ export default class Reservation extends Component {
     //   });
     // });
   }
+
+  renderItem(menu) {
+    return (
+      <View>
+        <Card>
+          <TouchableOpacity onPress={() => this.onPressItem(menu)}>
+            <Card.Title title={menu} subtitle="대표 메뉴들..." left={(props) => <Avatar.Icon {...props} icon="folder" />} />
+          </TouchableOpacity>
+        </Card>
+        <Divider />
+      </View>
+    );
+  }
+
+  menuModalRender = () => (
+    <>
+      <ScrollView>
+          <Card>
+            <Card.Content>
+              <Title>Menu Information</Title>
+            </Card.Content>
+          </Card>
+
+          <Divider />
+
+          <MenuSelector menus={this.props.navigation.getParam('menus', null)} menuClickEvent={()=>console.log("dd")}/>
+
+      </ScrollView>
+    </>
+  );
 
   calendarModalRender = () => (
 
@@ -71,7 +107,7 @@ export default class Reservation extends Component {
         onPressArrowRight={addMonth => addMonth()}
       />
       <TouchableOpacity
-        onPress={() => this.setState({ visibleModal: undefined })}
+        onPress={() => this.setState({ dateTimeSelectorModal: undefined })}
         style={modalBoxStyles.timePickerBtn}
       >
         <Text style={modalBoxStyles.timePickerBtn}>예약</Text>
@@ -116,29 +152,14 @@ export default class Reservation extends Component {
       <>
         <Appbar style={appBarStyles.topFixed}>
           <Text style={appBarStyles.titleStyle}>{"예약"}</Text>
-          <Appbar.Action icon="add" onPress={() => console.log("Pressed archive")} />
+          <Appbar.Action icon="add" onPress={() => console.log() } />
         </Appbar>
 
         <View style={styles.container}>
           <ScrollView>
-              <TextInput
-                label='성함'
-                value={this.state.name}
-                onChangeText={name => this.setState({ name })}
-                style={styles.textInput}
-                placeholder='성함을 입력해주세요'
-              />
-
-              <TextInput
-                label='핸드폰 번호'
-                value={this.state.phoneNum}
-                onChangeText={phoneNum => this.setState({ phoneNum })}
-                style={styles.textInput}
-                placeholder='핸드폰 번호를 입력해주세요'
-              />
 
               <Modal
-                isVisible={this.state.visibleModal === 2}
+                isVisible={this.state.dateTimeSelectorModal === 2}
                 backdropColor={'white'}
                 backdropOpacity={1}
                 animationIn={'zoomInDown'}
@@ -151,12 +172,26 @@ export default class Reservation extends Component {
                 {this.calendarModalRender()}
               </Modal>
 
+              <Modal
+                isVisible={this.state.menuModal === 2}
+                backdropColor={'white'}
+                backdropOpacity={1}
+                animationIn={'zoomInDown'}
+                animationOut={'zoomOutUp'}
+                animationInTiming={1000}
+                animationOutTiming={1000}
+                backdropTransitionInTiming={1000}
+                backdropTransitionOutTiming={1000}
+              >
+                {this.menuModalRender()}
+              </Modal>
+
               <DataTable>
                 <DataTable.Header>
                   <DataTable.Title>예약 날짜 및 시간</DataTable.Title>
                 </DataTable.Header>
                 <DataTable.Row>
-                  <TouchableOpacity onPress={() => this.setState({ visibleModal: 2 })}>
+                  <TouchableOpacity onPress={() => this.setState({ dateTimeSelectorModal: 2 })}>
                     <DataTable.Cell>
                       {this.state.selectedDate !== "" ? `${this.state.selectedDate}, ${this.state.selectedTime}` : "터치하여 예약 시간을 선택하세요."}
                     </DataTable.Cell>
@@ -166,22 +201,41 @@ export default class Reservation extends Component {
 
               <DataTable>
                 <DataTable.Header>
+                  <DataTable.Title>예약자 정보 입력</DataTable.Title>
+                </DataTable.Header>
+
+                  <TextInput
+                    label='성함'
+                    value={this.state.name}
+                    onChangeText={name => this.setState({ name })}
+                    style={styles.textInput}
+                    placeholder='성함을 입력해주세요'
+                  />
+
+                  <TextInput
+                    label='핸드폰 번호'
+                    value={this.state.phoneNum}
+                    onChangeText={phoneNum => this.setState({ phoneNum })}
+                    style={styles.textInput}
+                    placeholder='핸드폰 번호를 입력해주세요'
+                  />
+                </DataTable>
+
+              <DataTable>
+                <DataTable.Header>
                   <DataTable.Title>예약 항목</DataTable.Title>
                   <DataTable.Title>예약 인원</DataTable.Title>
                   <DataTable.Title>가격</DataTable.Title>
                 </DataTable.Header>
 
                 <DataTable.Row>
-                  <DataTable.Cell>항목1</DataTable.Cell>
-                  <DataTable.Cell>6</DataTable.Cell>
-                  <DataTable.Cell>1000</DataTable.Cell>
+                  <TouchableOpacity onPress={() => this.setState({ menuModal: 2 })}>
+                    <DataTable.Cell>선택하여 예약 메뉴를 선택하세요.</DataTable.Cell>
+                  </TouchableOpacity>
+                  <DataTable.Cell></DataTable.Cell>
+                  <DataTable.Cell></DataTable.Cell>
                 </DataTable.Row>
 
-                <DataTable.Row>
-                  <DataTable.Cell>항목2</DataTable.Cell>
-                  <DataTable.Cell>3</DataTable.Cell>
-                  <DataTable.Cell>3000</DataTable.Cell>
-                </DataTable.Row>
               </DataTable>
 
         </ScrollView>
