@@ -10,14 +10,22 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default class MenuSelector extends Component {
 
-// 선택했던 index
-// 값의 menuName, price 를 변경해야 함
+  constructor(props){
+    super(props);
+
+    const { menus } = this.props;
+
+    this.state = {
+        menus: menus,
+    };
+  }
+
   renderItem(menu, menuClickEvent) {
     return (
       <View>
         <Card>
-          <TouchableOpacity onPress={() => menuClickEvent("dd",1232)}>
-            <Card.Title title={menu} subtitle="대표 메뉴들..." left={(props) => <Avatar.Icon {...props} icon="folder" />} />
+          <TouchableOpacity onPress={() => menuClickEvent(menu.menuName , menu.price)}>
+            <Card.Title title={menu.menuName} subtitle="대표 메뉴들..." left={(props) => <Avatar.Icon {...props} icon="folder" />} />
           </TouchableOpacity>
         </Card>
         <Divider />
@@ -33,7 +41,7 @@ export default class MenuSelector extends Component {
       <>
         <FlatList renderItem={({ item }) => this.renderItem(item, menuClickEvent)}
                   keyExtractor={item => item}
-                  data={menus}
+                  data={this.state.menus}
         />
       </>
     );

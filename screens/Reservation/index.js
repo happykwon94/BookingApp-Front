@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, Divider, DataTable, TextInput } from 'react-native-paper';
+import { Appbar } from 'react-native-paper';
+import Modal from 'react-native-modal';
+import TimePicker from 'react-native-24h-timepicker';
+import NumericInput from 'react-native-numeric-input'
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import axios from 'react-native-axios'
 
 import FixedTopBar from '../../components/FixedTopBar';
-
-import { Appbar } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import MenuSelector from '../../components/MenuSelector';
 import MenuRecord from '../../components/MenuRecord';
 
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
-
-import Modal from 'react-native-modal';
-
-import TimePicker from "react-native-24h-timepicker";
-
-import NumericInput from 'react-native-numeric-input'
 
 // API URL
 const API_POS_DATA = 'http://10.0.2.2:8080/.../...';
@@ -43,8 +40,8 @@ export default class Reservation extends Component {
 
       menuRecordSet: [],
     };
-  }
 
+  }
 
 
   async componentDidMount() {
@@ -72,12 +69,19 @@ export default class Reservation extends Component {
   }
 
   reserve(){
-
+    axios({
+      method: 'post',
+      // fill this url
+      url: '',
+      data: {
+        name: this.state.name,
+        phoneNum: this.state.phoneNum,
+        selectedDate: this.state.selectedDate,
+        selectedTime: this.state.selectedTime,
+        menuRecordSet: this.menuRecordSet,
+      }
+    });
   }
-  //
-  // menuRecordSet(menuName){
-  //
-  // }
 
   menuModalRender = () => (
     <>
@@ -288,7 +292,7 @@ export default class Reservation extends Component {
       </View>
 
       <Appbar style={appBarStyles.bottomFixed}>
-        <Appbar.Content titleStyle={styles.reserveBtn} title="예약하기" onPress={() => console.log("1")}/>
+        <Appbar.Content titleStyle={styles.reserveBtn} title="예약하기" onPress={() => this.reserve()}/>
         <Appbar.Content titleStyle={styles.reserveBtn} title="취소하기" onPress={() => console.log("2")}/>
       </Appbar>
       </>
