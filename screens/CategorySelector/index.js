@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
-import FixedTopBar from '../../components/FixedTopBar';
 import { Avatar, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
 import { FlatGrid } from 'react-native-super-grid';
+
+import FixedTopBar from '../../components/FixedTopBar';
 
 // API URL
 const API_CATEGORIES = 'http://10.0.2.2:8080/.../...';
@@ -41,9 +42,7 @@ export default class CategorySelector extends Component {
 
   // CategorySelector는 DB에서 따로 Data를 fetch하지 않음.
   // 서비스의 분류별로 데이터를 갖고 있게 만든다.
-  async componentDidMount() {
-
-  }
+  async componentDidMount() {}
 
   onPressItem(item) {
     this.props.navigation.navigate(
@@ -129,5 +128,5 @@ const itemStyles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
   },
-  
+
 });

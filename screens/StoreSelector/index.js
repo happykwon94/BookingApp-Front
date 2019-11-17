@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
-import FixedTopBar from '../../components/FixedTopBar';
 import { Avatar, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
+
+import FixedTopBar from '../../components/FixedTopBar';
 
 // API URL
 const API_STORES = 'http://10.0.2.2:8080/.../...';

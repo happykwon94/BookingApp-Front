@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
+import { Avatar, Button, Card, Title, Paragraph, Divider, Appbar } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import FixedTopBar from '../../components/FixedTopBar';
 import MenuSelector from '../../components/MenuSelector';
-
-import { Appbar } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // API URL
 const API_STORE_INFO = 'http://10.0.2.2:8080/.../...';
@@ -54,20 +52,7 @@ export default class StorePage extends Component {
   onPressItem(item) {
 
   }
-
-  renderItem(menu) {
-    return (
-      <View>
-        <Card>
-          <TouchableOpacity onPress={() => this.onPressItem(menu)}>
-            <Card.Title title={menu} subtitle="대표 메뉴들..." left={(props) => <Avatar.Icon {...props} icon="folder" />} />
-          </TouchableOpacity>
-        </Card>
-        <Divider />
-      </View>
-    );
-  }
-
+  
   render() {
 
     const { navigation } = this.props;

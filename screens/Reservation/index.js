@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph, Divider, DataTable, TextInput } from 'react-native-paper';
-import { Appbar } from 'react-native-paper';
+import { Avatar, Button, Card, Title, Paragraph, Divider, DataTable, TextInput, Appbar } from 'react-native-paper';
 import Modal from 'react-native-modal';
 import TimePicker from 'react-native-24h-timepicker';
 import NumericInput from 'react-native-numeric-input'
@@ -20,7 +19,6 @@ const API_POS_DATA = 'http://10.0.2.2:8080/.../...';
 export default class Reservation extends Component {
 
   static navigationOptions = ({ navigation }) => {
-
     return {
       header: null,
       menus: navigation.getParam('menus', 'Unknown')
@@ -35,14 +33,15 @@ export default class Reservation extends Component {
       phoneNum: "",
       selectedTime: "",
       selectedDate: "",
+
+      // menuName, price, personCnt
+      menuRecordSet: [],
+
+      // modal 창을 띄우기 위한 플래그 변수
       dateTimeSelectorModal: null,
       menuModal: null,
-
-      menuRecordSet: [],
     };
-
   }
-
 
   async componentDidMount() {
     // fetch(API_CATEGORIES)
@@ -108,17 +107,15 @@ export default class Reservation extends Component {
 
                             this.setState({ menuRecordSet : items });
 
-                            this.setState({ menuModal: null });
+                            this.setState({ menuModal: undefined });
                           }
                         }
-                        />
-
+          />
       </ScrollView>
     </>
   );
 
   calendarModalRender = () => (
-
     <>
       <View style={modalBoxStyles.selectedDateTiemContainer}>
         <Text style={modalBoxStyles.selectedDateTime}>예약 날짜 : {this.state.selectedDate}</Text>
@@ -183,12 +180,9 @@ export default class Reservation extends Component {
   );
 
   render() {
-
     const { navigation } = this.props;
 
     let reservationItems = [];
-
-    let index = 0;
 
     this.state.menuRecordSet.forEach((item) => {
       reservationItems.push(
@@ -198,7 +192,6 @@ export default class Reservation extends Component {
                       price={item.price}
           />
       );
-      index += 1;
     })
 
     return (
@@ -248,7 +241,8 @@ export default class Reservation extends Component {
                 <DataTable.Row>
                   <TouchableOpacity onPress={() => this.setState({ dateTimeSelectorModal: 2 })}>
                     <DataTable.Cell>
-                      {this.state.selectedDate !== "" ? `${this.state.selectedDate}, ${this.state.selectedTime}` : "터치하여 예약 시간을 선택하세요."}
+                      {this.state.selectedDate !== "" ?
+                        `${this.state.selectedDate}, ${this.state.selectedTime}` : "터치하여 예약 시간을 선택하세요."}
                     </DataTable.Cell>
                   </TouchableOpacity>
                 </DataTable.Row>
@@ -286,8 +280,6 @@ export default class Reservation extends Component {
                 {reservationItems}
 
               </DataTable>
-
-
         </ScrollView>
       </View>
 

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
-
-import FixedTopBar from '../../components/FixedTopBar';
-
 import { Appbar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import FixedTopBar from '../../components/FixedTopBar';
 
 export default class MenuSelector extends Component {
 
@@ -25,7 +23,7 @@ export default class MenuSelector extends Component {
       <View>
         <Card>
           <TouchableOpacity onPress={() => menuClickEvent(menu.menuName , menu.price)}>
-            <Card.Title title={menu.menuName} subtitle="대표 메뉴들..." left={(props) => <Avatar.Icon {...props} icon="folder" />} />
+            <Card.Title title={menu.menuName} subtitle={`${menu.price}원`} left={(props) => <Avatar.Icon {...props} icon="folder" />} />
           </TouchableOpacity>
         </Card>
         <Divider />
@@ -34,7 +32,6 @@ export default class MenuSelector extends Component {
   }
 
   render() {
-
     const { menus, menuClickEvent } = this.props;
 
     return (

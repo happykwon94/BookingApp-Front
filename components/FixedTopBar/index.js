@@ -12,7 +12,6 @@ export default class FixedTopBar extends Component {
       <Appbar style={appBarStyles.topFixed}>
         {iconStr !== "" ? <Icon name={iconStr} size={25} color="#ffffff" style={{marginLeft: 7}} />: <Icon />}
         <Text style={appBarStyles.titleStyle}>{title}</Text>
-
       </Appbar>
     );
   }
