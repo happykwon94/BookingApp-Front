@@ -7,12 +7,15 @@ import FixedTopBar from '../../components/FixedTopBar';
 import { Appbar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MenuSelector from '../../components/MenuSelector';
+import MenuRecord from '../../components/MenuRecord';
 
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 import Modal from 'react-native-modal';
 
 import TimePicker from "react-native-24h-timepicker";
+
+import NumericInput from 'react-native-numeric-input'
 
 // API URL
 const API_POS_DATA = 'http://10.0.2.2:8080/.../...';
@@ -36,7 +39,8 @@ export default class Reservation extends Component {
       selectedTime: "",
       selectedDate: "",
       dateTimeSelectorModal: null,
-      menuModal: null
+      menuModal: null,
+      recordNum: 1,
     };
   }
 
@@ -75,7 +79,9 @@ export default class Reservation extends Component {
 
           <Divider />
 
-          <MenuSelector menus={this.props.navigation.getParam('menus', null)} menuClickEvent={()=>console.log("dd")}/>
+          <MenuSelector
+            menus={this.props.navigation.getParam('menus', null)}
+            menuClickEvent={()=>console.log("dd")}/>
 
       </ScrollView>
     </>
@@ -148,11 +154,23 @@ export default class Reservation extends Component {
 
     const { navigation } = this.props;
 
+    let reservationItems = [];
+
+    for (let i = 0; i < this.state.recordNum; i++){
+        reservationItems.push(
+            <MenuRecord menuPressed={() => this.setState({ menuModal: 2 })}
+                        menuName={"메뉴를 선택하세요."}
+                        personCnt={1}
+                        price={0}
+            />
+        );
+    }
+
     return (
       <>
         <Appbar style={appBarStyles.topFixed}>
           <Text style={appBarStyles.titleStyle}>{"예약"}</Text>
-          <Appbar.Action icon="add" onPress={() => console.log() } />
+          <Appbar.Action icon="add" onPress={() => this.setState({recordNum: this.state.recordNum + 1})} />
         </Appbar>
 
         <View style={styles.container}>
@@ -224,19 +242,14 @@ export default class Reservation extends Component {
               <DataTable>
                 <DataTable.Header>
                   <DataTable.Title>예약 항목</DataTable.Title>
-                  <DataTable.Title>예약 인원</DataTable.Title>
                   <DataTable.Title>가격</DataTable.Title>
+                  <DataTable.Title numeric>예약 인원</DataTable.Title>
                 </DataTable.Header>
 
-                <DataTable.Row>
-                  <TouchableOpacity onPress={() => this.setState({ menuModal: 2 })}>
-                    <DataTable.Cell>선택하여 예약 메뉴를 선택하세요.</DataTable.Cell>
-                  </TouchableOpacity>
-                  <DataTable.Cell></DataTable.Cell>
-                  <DataTable.Cell></DataTable.Cell>
-                </DataTable.Row>
+                {reservationItems}
 
               </DataTable>
+
 
         </ScrollView>
       </View>
