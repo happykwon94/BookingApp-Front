@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
+import { Avatar, Button, Card, Title, Paragraph, Divider, Appbar } from 'react-native-paper';
 import { FlatGrid } from 'react-native-super-grid';
 
 import FixedTopBar from '../../components/FixedTopBar';
@@ -44,6 +44,14 @@ export default class CategorySelector extends Component {
   // 서비스의 분류별로 데이터를 갖고 있게 만든다.
   async componentDidMount() {}
 
+  toReserveQueryPage(){
+    this.props.navigation.navigate(
+      'ReserveQueryPage',
+      {
+      }
+    );
+  }
+
   onPressItem(item) {
     this.props.navigation.navigate(
       'StoreSelector',
@@ -56,7 +64,12 @@ export default class CategorySelector extends Component {
   render() {
     return (
       <>
-      <FixedTopBar title="서비스 카테고리 선택" iconStr = ""/>
+        <Appbar style={appBarStyles.topFixed}>
+          <Text style={appBarStyles.titleStyle}>{"서비스 카테고리 선택"}</Text>
+          <TouchableOpacity onPress={() => this.toReserveQueryPage()}>
+            <Text style={appBarStyles.serviceQueryBtn}>{"예약 조회"}</Text>
+          </TouchableOpacity>
+        </Appbar>
         <View style={styles.container}>
           <FlatGrid
             itemDimension={100}
@@ -129,4 +142,36 @@ const itemStyles = StyleSheet.create({
     fontWeight: '600',
   },
 
+});
+
+const appBarStyles = StyleSheet.create({
+  topFixed: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    backgroundColor: '#cfcfcf',
+  },
+
+  titleStyle: {
+    marginLeft: 15,
+    fontFamily: 'JejuGothic',
+    color: '#000000',
+    fontSize: 20,
+    flex: 1,
+  },
+
+  iconsStartStyle: {
+    alignSelf: 'flex-start',
+  },
+
+  iconsEndStyle: {
+    alignSelf: 'flex-end',
+  },
+
+  serviceQueryBtn:{
+    fontFamily: 'JejuGothic',
+    fontSize: 14,
+    right: 5,
+  }
 });

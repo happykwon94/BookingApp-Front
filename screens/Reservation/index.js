@@ -96,20 +96,20 @@ export default class Reservation extends Component {
           <MenuSelector menus={this.props.navigation.getParam('menus', null)}
                         menuClickEvent={(selectedMenuName, selectedMenuPrice) => {
 
-                            let items = [...this.state.menuRecordSet];
-                            let item = {...items[this.state.menuRecordSet.length]};
+                          let items = [...this.state.menuRecordSet];
+                          let item = {...items[this.state.menuRecordSet.length]};
 
-                            item.menuName = selectedMenuName;
-                            item.price = selectedMenuPrice;
-                            item.personCnt = 1;
+                          item.menuName = selectedMenuName;
+                          item.price = selectedMenuPrice;
+                          item.personCnt = 1;
 
-                            items[this.state.menuRecordSet.length] = item;
+                          items[this.state.menuRecordSet.length] = item;
 
-                            this.setState({ menuRecordSet : items });
+                          this.setState({ menuRecordSet : items });
 
-                            this.setState({ menuModal: undefined });
-                          }
+                          this.setState({ menuModal: undefined });
                         }
+                      }
           />
       </ScrollView>
     </>
@@ -170,8 +170,8 @@ export default class Reservation extends Component {
         }}
         onCancel={() => this.EndTimePicker.close()}
         onConfirm={(hour, minute) => {
-           this.setState({ selectedTime : `${this.state.selectedTime}-${hour}:${minute}` });
-           this.EndTimePicker.close();
+          this.setState({ selectedTime : `${this.state.selectedTime}-${hour}:${minute}` });
+          this.EndTimePicker.close();
         }}
         hourInterval="1"
         minuteInterval="30"
@@ -205,81 +205,78 @@ export default class Reservation extends Component {
 
         <View style={styles.container}>
           <ScrollView>
+            <Modal
+              isVisible={this.state.dateTimeSelectorModal === 2}
+              backdropColor={'white'}
+              backdropOpacity={1}
+              animationIn={'zoomInDown'}
+              animationOut={'zoomOutUp'}
+              animationInTiming={1000}
+              animationOutTiming={1000}
+              backdropTransitionInTiming={1000}
+              backdropTransitionOutTiming={1000}
+            >
+              {this.calendarModalRender()}
+            </Modal>
 
-              <Modal
-                isVisible={this.state.dateTimeSelectorModal === 2}
-                backdropColor={'white'}
-                backdropOpacity={1}
-                animationIn={'zoomInDown'}
-                animationOut={'zoomOutUp'}
-                animationInTiming={1000}
-                animationOutTiming={1000}
-                backdropTransitionInTiming={1000}
-                backdropTransitionOutTiming={1000}
-              >
-                {this.calendarModalRender()}
-              </Modal>
+            <Modal
+              isVisible={this.state.menuModal === 2}
+              backdropColor={'white'}
+              backdropOpacity={1}
+              animationIn={'zoomInDown'}
+              animationOut={'zoomOutUp'}
+              animationInTiming={1000}
+              animationOutTiming={1000}
+              backdropTransitionInTiming={1000}
+              backdropTransitionOutTiming={1000}
+            >
+              {this.menuModalRender()}
+            </Modal>
 
-              <Modal
-                isVisible={this.state.menuModal === 2}
-                backdropColor={'white'}
-                backdropOpacity={1}
-                animationIn={'zoomInDown'}
-                animationOut={'zoomOutUp'}
-                animationInTiming={1000}
-                animationOutTiming={1000}
-                backdropTransitionInTiming={1000}
-                backdropTransitionOutTiming={1000}
-              >
-                {this.menuModalRender()}
-              </Modal>
+            <DataTable>
+              <DataTable.Header>
+                <DataTable.Title>예약 날짜 및 시간</DataTable.Title>
+              </DataTable.Header>
+              <DataTable.Row>
+                <TouchableOpacity onPress={() => this.setState({ dateTimeSelectorModal: 2 })}>
+                  <DataTable.Cell>
+                    {this.state.selectedDate !== "" ?
+                      `${this.state.selectedDate}, ${this.state.selectedTime}` : "터치하여 예약 시간을 선택하세요."}
+                  </DataTable.Cell>
+                </TouchableOpacity>
+              </DataTable.Row>
+            </DataTable>
 
-              <DataTable>
-                <DataTable.Header>
-                  <DataTable.Title>예약 날짜 및 시간</DataTable.Title>
-                </DataTable.Header>
-                <DataTable.Row>
-                  <TouchableOpacity onPress={() => this.setState({ dateTimeSelectorModal: 2 })}>
-                    <DataTable.Cell>
-                      {this.state.selectedDate !== "" ?
-                        `${this.state.selectedDate}, ${this.state.selectedTime}` : "터치하여 예약 시간을 선택하세요."}
-                    </DataTable.Cell>
-                  </TouchableOpacity>
-                </DataTable.Row>
-              </DataTable>
+            <DataTable>
+              <DataTable.Header>
+                <DataTable.Title>예약자 정보 입력</DataTable.Title>
+              </DataTable.Header>
 
-              <DataTable>
-                <DataTable.Header>
-                  <DataTable.Title>예약자 정보 입력</DataTable.Title>
-                </DataTable.Header>
+              <TextInput
+                  label='성함'
+                  value={this.state.name}
+                  onChangeText={name => this.setState({ name })}
+                  style={styles.textInput}
+                  placeholder='성함을 입력해주세요'
+              />
 
-                  <TextInput
-                    label='성함'
-                    value={this.state.name}
-                    onChangeText={name => this.setState({ name })}
-                    style={styles.textInput}
-                    placeholder='성함을 입력해주세요'
-                  />
+              <TextInput
+                label='핸드폰 번호'
+                  value={this.state.phoneNum}
+                  onChangeText={phoneNum => this.setState({ phoneNum })}
+                  style={styles.textInput}
+                  placeholder='핸드폰 번호를 입력해주세요'
+              />
+            </DataTable>
 
-                  <TextInput
-                    label='핸드폰 번호'
-                    value={this.state.phoneNum}
-                    onChangeText={phoneNum => this.setState({ phoneNum })}
-                    style={styles.textInput}
-                    placeholder='핸드폰 번호를 입력해주세요'
-                  />
-                </DataTable>
-
-              <DataTable>
-                <DataTable.Header>
-                  <DataTable.Title>예약 항목</DataTable.Title>
-                  <DataTable.Title>가격</DataTable.Title>
-                  <DataTable.Title numeric>예약 인원</DataTable.Title>
-                </DataTable.Header>
-
+            <DataTable>
+              <DataTable.Header>
+                <DataTable.Title>예약 항목</DataTable.Title>
+                <DataTable.Title>가격</DataTable.Title>
+                <DataTable.Title numeric>예약 인원</DataTable.Title>
+              </DataTable.Header>
                 {reservationItems}
-
-              </DataTable>
+            </DataTable>
         </ScrollView>
       </View>
 
@@ -328,7 +325,6 @@ const styles = StyleSheet.create({
 
   textInput: {
     backgroundColor: '#ffffff'
-
   },
 
 });

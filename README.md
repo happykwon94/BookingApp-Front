@@ -4,6 +4,8 @@
 
 ### Development Environment
 
+> Test on Android 10, Pixel 2
+>
 > react 16.9.0
 >
 > react-native 0.61.2
@@ -23,10 +25,16 @@
 > react-native-vector-icons 6.6.0
 >
 > react-navigation 4.0.10
+> 
+> react-navigation-stack 1.10.3
+> 
+> react-native-24h-timepicker
 >
 > react-native-calendars
 >
 > react-native-modal
+> 
+> react-native-axios
 
 
 ### How to use

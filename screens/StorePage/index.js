@@ -52,9 +52,8 @@ export default class StorePage extends Component {
   onPressItem(item) {
 
   }
-  
-  render() {
 
+  render() {
     const { navigation } = this.props;
 
     return (
