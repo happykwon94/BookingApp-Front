@@ -40,9 +40,12 @@ export default class Reservation extends Component {
       selectedDate: "",
       dateTimeSelectorModal: null,
       menuModal: null,
-      recordNum: 1,
+
+      menuRecordSet: [],
     };
   }
+
+
 
   async componentDidMount() {
     // fetch(API_CATEGORIES)
@@ -68,6 +71,14 @@ export default class Reservation extends Component {
     );
   }
 
+  reserve(){
+
+  }
+  //
+  // menuRecordSet(menuName){
+  //
+  // }
+
   menuModalRender = () => (
     <>
       <ScrollView>
@@ -79,9 +90,24 @@ export default class Reservation extends Component {
 
           <Divider />
 
-          <MenuSelector
-            menus={this.props.navigation.getParam('menus', null)}
-            menuClickEvent={()=>console.log("dd")}/>
+          <MenuSelector menus={this.props.navigation.getParam('menus', null)}
+                        menuClickEvent={(selectedMenuName, selectedMenuPrice) => {
+
+                            let items = [...this.state.menuRecordSet];
+                            let item = {...items[this.state.menuRecordSet.length]};
+
+                            item.menuName = selectedMenuName;
+                            item.price = selectedMenuPrice;
+                            item.personCnt = 1;
+
+                            items[this.state.menuRecordSet.length] = item;
+
+                            this.setState({ menuRecordSet : items });
+
+                            this.setState({ menuModal: null });
+                          }
+                        }
+                        />
 
       </ScrollView>
     </>
@@ -94,6 +120,7 @@ export default class Reservation extends Component {
         <Text style={modalBoxStyles.selectedDateTime}>예약 날짜 : {this.state.selectedDate}</Text>
         <Text style={modalBoxStyles.selectedDateTime}>예약 시간 : {this.state.selectedTime}</Text>
       </View>
+
       <Calendar
         current={`${new Date().getFullYear()}-${new Date().getMonth() + 1}`}
         minDate={`${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`}
@@ -112,6 +139,7 @@ export default class Reservation extends Component {
         onPressArrowLeft={substractMonth => substractMonth()}
         onPressArrowRight={addMonth => addMonth()}
       />
+
       <TouchableOpacity
         onPress={() => this.setState({ dateTimeSelectorModal: undefined })}
         style={modalBoxStyles.timePickerBtn}
@@ -156,21 +184,26 @@ export default class Reservation extends Component {
 
     let reservationItems = [];
 
-    for (let i = 0; i < this.state.recordNum; i++){
-        reservationItems.push(
-            <MenuRecord menuPressed={() => this.setState({ menuModal: 2 })}
-                        menuName={"메뉴를 선택하세요."}
-                        personCnt={1}
-                        price={0}
-            />
-        );
-    }
+    let index = 0;
+
+    this.state.menuRecordSet.forEach((item) => {
+      reservationItems.push(
+          <MenuRecord menuPressed={() => console.log()}
+                      menuName={item.menuName}
+                      personCnt={item.personCnt}
+                      price={item.price}
+          />
+      );
+      index += 1;
+    })
 
     return (
       <>
         <Appbar style={appBarStyles.topFixed}>
           <Text style={appBarStyles.titleStyle}>{"예약"}</Text>
-          <Appbar.Action icon="add" onPress={() => this.setState({recordNum: this.state.recordNum + 1})} />
+          <Appbar.Action icon="add" onPress={() =>{
+            this.setState({ menuModal: 2 });
+          }} />
         </Appbar>
 
         <View style={styles.container}>

@@ -22,7 +22,7 @@ export default class StorePage extends Component {
 
     this.state = {
       info: "상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명",
-      menus: ["메뉴1", "메뉴2", "메뉴3", "메뉴4", "메뉴5", "메뉴6"],
+      menus: ["메뉴1", "메뉴2", "메뉴3", "메뉴4", "메뉴5", "메뉴6", "메뉴7"],
     };
   }
 
@@ -80,7 +80,8 @@ export default class StorePage extends Component {
           </Card>
 
           <Divider />
-          <MenuSelector menus={this.state.menus} menuClickEvent={()=>console.log("dd")}/>
+          <MenuSelector menus={this.state.menus}
+                        menuClickEvent={() => console.log("dd")}/>
         </ScrollView>
 
         <Appbar style={appBarStyles.bottomFixed}>

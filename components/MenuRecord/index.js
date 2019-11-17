@@ -34,7 +34,7 @@ export default class MenuRecord extends Component {
   }
 
   spinboxChangeEvt(value){
-    this.setState({personCnt : value});
+    this.setState({ personCnt : value });
   }
 
   render() {
