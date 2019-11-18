@@ -52,7 +52,6 @@ export default class ReserveQueryPage extends Component {
             조회
           </Button>
         </View>
-
       </>
     );
   }

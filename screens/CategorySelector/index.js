@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView, Image } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, Divider, Appbar } from 'react-native-paper';
 import { FlatGrid } from 'react-native-super-grid';
 
@@ -19,11 +19,14 @@ export default class CategorySelector extends Component {
 
     this.state = {
       categories: [
-        { name: '음식점', color: '#1abc9c', imageSource: require('./CategorySelectorIcon/Restaurant_icon.png')}, { name: '카페', color: '#2ecc71', imageSource: require('./CategorySelectorIcon/Cafe_icon.png')},
-        { name: '회의실', color: '#1abc9c' , imageSource: require('./CategorySelectorIcon/MeetingRoom_icon.png')}, { name: '네일 아트', color: '#2ecc71', imageSource: require('./CategorySelectorIcon/NailArt_icon.png')},
-        { name: '방 탈출', color: '#1abc9c', imageSource: require('./CategorySelectorIcon/EscapeRoom_icon.png') }, { name: '농촌 체험', color: '#2ecc71', imageSource: require('./CategorySelectorIcon/RuralExp_icon.png') },
-        { name: '준비중...', color: '#1abc9c', imageSource: require('./CategorySelectorIcon/Waiting_icon.png') },
-    ]
+        { name: '음식점',    color: '#1abc9c',   imageSource: require('./CategorySelectorIcon/Restaurant_icon.png')},
+        { name: '카페',      color: '#2ecc71',   imageSource: require('./CategorySelectorIcon/Cafe_icon.png')},
+        { name: '회의실',    color: '#1abc9c',   imageSource: require('./CategorySelectorIcon/MeetingRoom_icon.png')},
+        { name: '네일 아트', color: '#2ecc71',   imageSource: require('./CategorySelectorIcon/NailArt_icon.png')},
+        { name: '방 탈출',   color: '#1abc9c',   imageSource: require('./CategorySelectorIcon/EscapeRoom_icon.png') },
+        { name: '농촌 체험', color: '#2ecc71',   imageSource: require('./CategorySelectorIcon/RuralExp_icon.png') },
+        { name: '준비중...', color: '#1abc9c',   imageSource: require('./CategorySelectorIcon/Waiting_icon.png') },
+      ]
     };
   }
 
@@ -134,7 +137,7 @@ const itemStyles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
   },
-  
+
   itemIcon: {
     flex: 5,
     width: '100%',
@@ -142,5 +145,37 @@ const itemStyles = StyleSheet.create({
     resizeMode: 'contain',
     marginBottom: 10,
   },
-  
+
+});
+
+const appBarStyles = StyleSheet.create({
+  topFixed: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    backgroundColor: '#cfcfcf',
+  },
+
+  titleStyle: {
+    marginLeft: 15,
+    fontFamily: 'JejuGothic',
+    color: '#000000',
+    fontSize: 20,
+    flex: 1,
+  },
+
+  iconsStartStyle: {
+    alignSelf: 'flex-start',
+  },
+
+  iconsEndStyle: {
+    alignSelf: 'flex-end',
+  },
+
+  serviceQueryBtn:{
+    fontFamily: 'JejuGothic',
+    fontSize: 14,
+    right: 5,
+  }
 });

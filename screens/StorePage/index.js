@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph, Divider, Appbar, ActivityIndicator } from 'react-native-paper';
+import { Avatar, Button, Card, Title, Paragraph, Divider, Appbar, ActivityIndicator, Colors } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import FixedTopBar from '../../components/FixedTopBar';

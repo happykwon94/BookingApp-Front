@@ -17,7 +17,7 @@ export default class MenuSelector extends Component {
       <View>
         <Card>
           <TouchableOpacity onPress={() => menuClickEvent(menu.Name , menu.Price)}>
-            <Card.Title title={menu.Name} subtitle={`${menu.Price}원`} left={(props) => <Avatar.Icon {...props} icon="folder" />} />
+            <Card.Title title={menu.Name} subtitle={`${menu.Price} 원`} left={(props) => <Avatar.Icon {...props} icon="folder" />} />
           </TouchableOpacity>
         </Card>
         <Divider />
