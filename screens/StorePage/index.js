@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph, Divider, Appbar } from 'react-native-paper';
+import { Avatar, Button, Card, Title, Paragraph, Divider, Appbar, ActivityIndicator } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import FixedTopBar from '../../components/FixedTopBar';
@@ -19,6 +19,8 @@ export default class StorePage extends Component {
     super(props);
 
     this.state = {
+
+      isLoading: true,
 
       SelfEmployedID: '',
       Address: '',
@@ -54,6 +56,8 @@ export default class StorePage extends Component {
         WorkPlaceInfo: storeInfo.WorkPlaceInfo,
       });
     });
+
+    this.setState({ isLoading: false });
   }
 
   toRervationPage() {
@@ -72,6 +76,13 @@ export default class StorePage extends Component {
   }
 
   render() {
+
+    if (this.state.isLoading) {
+      return (
+        <ActivityIndicator style={styles.ActivityIndicatorStyle} animating={true} color={Colors.blue200} />
+      )
+    }
+
     const { navigation } = this.props;
 
     return (
@@ -137,6 +148,12 @@ const styles = StyleSheet.create({
 
     // marginBottom은 BottomFixedAppbar의 높이가 되게 넣을 것
     backgroundColor: '#ffffff',
+  },
+
+  ActivityIndicatorStyle:{
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
 });

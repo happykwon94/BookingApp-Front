@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph, Divider, Appbar, TextInput } from 'react-native-paper';
+import { Avatar, Button, Card, Title, Paragraph, Divider, Appbar, TextInput, ActivityIndicator } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from 'react-native-axios'
 
@@ -22,6 +22,7 @@ export default class ReserveCheckPage extends Component {
     super(props);
 
     this.state = {
+      isLoading: true,
       reservationID: this.props.navigation.getParam('reservationID', null),
 
       Address: '',
@@ -41,12 +42,20 @@ export default class ReserveCheckPage extends Component {
         WorkPlaceInfo: reservation.WorkPlaceInfo,
         ReservedDateTime: reservation.ReservedDateTime,
         EndDateTime: reservation.EndDateTime,
-        Menus: reservation.Menus
+        Menus: reservation.Menus,
+        isLoading: false
       });
     });
   }
 
   render() {
+
+    if (this.state.isLoading) {
+      return (
+        <ActivityIndicator style={styles.ActivityIndicatorStyle} animating={true} color={Colors.blue200} />
+      )
+    }
+
     const { navigation } = this.props;
 
     return (
@@ -72,6 +81,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     backgroundColor: '#ffffff',
+  },
+
+  ActivityIndicatorStyle:{
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
 });

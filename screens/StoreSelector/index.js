@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
+import { Avatar, Button, Card, Title, Paragraph, Divider, ActivityIndicator } from 'react-native-paper';
 
 import FixedTopBar from '../../components/FixedTopBar';
 
@@ -17,6 +17,7 @@ export default class StoreSelector extends Component {
     super(props);
 
     this.state = {
+      isLoading: true,
       //  SelfEmployedID, Address, WorkPlaceInfo, Name, Category
       stores: []
     }
@@ -27,7 +28,8 @@ export default class StoreSelector extends Component {
     .then(response => response.json())
     .then(stores => {
       this.setState({
-        stores: stores
+        stores: stores,
+        isLoading: false
       });
     });
   }
@@ -57,6 +59,12 @@ export default class StoreSelector extends Component {
 
   render() {
 
+    if (this.state.isLoading) {
+      return (
+        <ActivityIndicator style={styles.ActivityIndicatorStyle} animating={true} color={Colors.blue200} />
+      )
+    }
+
     const { navigation } = this.props;
 
     return (
@@ -80,6 +88,12 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 50,
     backgroundColor: '#ffffff',
+  },
+
+  ActivityIndicatorStyle:{
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
 });
