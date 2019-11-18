@@ -18,25 +18,12 @@ export default class CategorySelector extends Component {
     super(props);
 
     this.state = {
-        categories: [
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-          { name: 'Dummy', color: '#1abc9c' }, { name: 'Dummy', color: '#2ecc71' },
-      ]
+      categories: [
+        { name: '음식점', color: '#1abc9c', imageSource: require('./CategorySelectorIcon/Restaurant_icon.png')}, { name: '카페', color: '#2ecc71', imageSource: require('./CategorySelectorIcon/Cafe_icon.png')},
+        { name: '회의실', color: '#1abc9c' , imageSource: require('./CategorySelectorIcon/MeetingRoom_icon.png')}, { name: '네일 아트', color: '#2ecc71', imageSource: require('./CategorySelectorIcon/NailArt_icon.png')},
+        { name: '방 탈출', color: '#1abc9c', imageSource: require('./CategorySelectorIcon/EscapeRoom_icon.png') }, { name: '농촌 체험', color: '#2ecc71', imageSource: require('./CategorySelectorIcon/RuralExp_icon.png') },
+        { name: '준비중...', color: '#1abc9c', imageSource: require('./CategorySelectorIcon/Waiting_icon.png') },
+    ]
     };
   }
 
@@ -78,33 +65,35 @@ export default class CategorySelector extends Component {
             renderItem={({ item, index }) => (
               <TouchableOpacity onPress={() => this.onPressItem(item.name)}>
                 <View style={[gridStyles.itemContainer, { backgroundColor: item.color }]}>
+                  <Image style={itemStyles.itemIcon} source={item.imageSource}/>
                   <Text style={itemStyles.itemName}>{item.name}</Text>
                 </View>
               </TouchableOpacity>
             )}
           />
-      </View>
+        </View>
       </>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
 
   container: {
     flex: 1,
     marginTop: 60,
-    backgroundColor: '#ffffff',
+    backgroundColor: 'white',
   },
 
   text: {
-    fontFamily: 'JejuGothic',
+    fontFamily: 'BMJUA_ttf',
     marginBottom: 10,
     fontSize: 16,
   },
 
   cardContainer:{
-    backgroundColor: '#f5f5f5',
+    backgroundColor: 'black',
   },
 
   cityTitle: {
@@ -137,41 +126,21 @@ const gridStyles = StyleSheet.create({
 const itemStyles = StyleSheet.create({
 
   itemName: {
-    fontSize: 16,
-    color: '#fff',
+    flex: 2,
+    fontFamily: 'BMJUA_ttf',
+    fontSize: 25,
+    fontWeight:'bold',
+    color: '#333',
     fontWeight: '600',
+    textAlign: 'center',
   },
-
-});
-
-const appBarStyles = StyleSheet.create({
-  topFixed: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    backgroundColor: '#cfcfcf',
+  
+  itemIcon: {
+    flex: 5,
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+    marginBottom: 10,
   },
-
-  titleStyle: {
-    marginLeft: 15,
-    fontFamily: 'JejuGothic',
-    color: '#000000',
-    fontSize: 20,
-    flex: 1,
-  },
-
-  iconsStartStyle: {
-    alignSelf: 'flex-start',
-  },
-
-  iconsEndStyle: {
-    alignSelf: 'flex-end',
-  },
-
-  serviceQueryBtn:{
-    fontFamily: 'JejuGothic',
-    fontSize: 14,
-    right: 5,
-  }
+  
 });
