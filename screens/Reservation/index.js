@@ -12,16 +12,15 @@ import FixedTopBar from '../../components/FixedTopBar';
 import MenuSelector from '../../components/MenuSelector';
 import MenuRecord from '../../components/MenuRecord';
 
-
-// API URL
-const API_POS_DATA = 'http://10.0.2.2:8080/.../...';
+const BACKEND_URL = 'http://c00bfdae.ngrok.io';
 
 export default class Reservation extends Component {
 
   static navigationOptions = ({ navigation }) => {
     return {
       header: null,
-      menus: navigation.getParam('menus', 'Unknown')
+      menus: navigation.getParam('menus', 'Unknown'),
+      workPlaceID: navigation.getParam('workPlaceID', 'Unknown'),
     };
   };
 
@@ -34,24 +33,13 @@ export default class Reservation extends Component {
       selectedTime: "",
       selectedDate: "",
 
-      // menuName, price, personCnt
+      // Name, Price, PersonCnt
       menuRecordSet: [],
 
       // modal 창을 띄우기 위한 플래그 변수
       dateTimeSelectorModal: null,
       menuModal: null,
     };
-  }
-
-  async componentDidMount() {
-    // fetch(API_CATEGORIES)
-    // .then(response => response.json())
-    // .then(categories => {
-    //   // console.log('cities =', cities.length);
-    //   this.setState({
-    //     categories
-    //   });
-    // });
   }
 
   renderItem(menu) {
@@ -68,16 +56,42 @@ export default class Reservation extends Component {
   }
 
   reserve(){
+
+    let yymmdd = this.state.selectedDate.split("-");
+    let yy = yymmdd[0];
+    let mm = yymmdd[1];
+    let dd = yymmdd[2];
+
+    let bg_time = this.state.selectedTime.split(" ~ ")[0].split(":");
+    let bg_hh = bg_time[0];
+    let bg_mm = bg_time[1];
+    let bg_ss = bg_time[2];
+
+    let ed_time = this.state.selectedTime.split(" ~ ")[1].split(":");
+    let ed_hh = ed_time[0];
+    let ed_mm = ed_time[1];
+    let ed_ss = ed_time[2];
+
+    let beginningSelectedTime = new Date(yy, mm, dd, bg_hh, bg_mm, bg_ss).toISOString();
+    let endSelectedTime = new Date(yy, mm, dd, ed_hh, ed_mm, ed_ss).toISOString();
+
     axios({
       method: 'post',
       // fill this url
-      url: '',
+      url: BACKEND_URL + '/reservation',
       data: {
-        name: this.state.name,
-        phoneNum: this.state.phoneNum,
-        selectedDate: this.state.selectedDate,
-        selectedTime: this.state.selectedTime,
-        menuRecordSet: this.menuRecordSet,
+        Detail: {
+          UserName: this.state.name,
+          PhoneNum: this.state.phoneNum,
+        },
+
+        WorkPlaceID: this.props.navigation.getParam('workPlaceID', null),
+
+        ReservedDateTime: beginningSelectedTime,
+
+        EndDateTime: endSelectedTime,
+
+        Menus: this.state.menuRecordSet,
       }
     });
   }
@@ -95,19 +109,21 @@ export default class Reservation extends Component {
 
           <MenuSelector menus={this.props.navigation.getParam('menus', null)}
                         menuClickEvent={(selectedMenuName, selectedMenuPrice) => {
-
                           let items = [...this.state.menuRecordSet];
                           let item = {...items[this.state.menuRecordSet.length]};
 
-                          item.menuName = selectedMenuName;
-                          item.price = selectedMenuPrice;
-                          item.personCnt = 1;
+                          item = {
+                            MenuName: selectedMenuName,
+                            Price: selectedMenuPrice,
+                            Personnel: 1
+                          }
 
                           items[this.state.menuRecordSet.length] = item;
 
-                          this.setState({ menuRecordSet : items });
-
-                          this.setState({ menuModal: undefined });
+                          this.setState({
+                             menuRecordSet : items,
+                             menuModal: undefined
+                          });
                         }
                       }
           />
@@ -122,29 +138,25 @@ export default class Reservation extends Component {
         <Text style={modalBoxStyles.selectedDateTime}>예약 시간 : {this.state.selectedTime}</Text>
       </View>
 
-      <Calendar
-        current={`${new Date().getFullYear()}-${new Date().getMonth() + 1}`}
-        minDate={`${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`}
-        onDayPress={
-          (day) => {
-            this.setState({ selectedDate : day.dateString });
-            this.StartTimePicker.open();
-           }
-         }
-        monthFormat={'yyyy MM'}
-        hideExtraDays={true}
-        disableMonthChange={false}
-        firstDay={1}
-        hideDayNames={true}
-        showWeekNumbers={true}
-        onPressArrowLeft={substractMonth => substractMonth()}
-        onPressArrowRight={addMonth => addMonth()}
-      />
+      <Calendar current={`${new Date().getFullYear()}-${new Date().getMonth() + 1}`}
+                minDate={`${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`}
+                onDayPress={
+                  (day) => {
+                    this.setState({ selectedDate : day.dateString });
+                    this.StartTimePicker.open();
+                   }
+                 }
+                monthFormat={'yyyy MM'}
+                hideExtraDays={true}
+                disableMonthChange={false}
+                firstDay={1}
+                hideDayNames={true}
+                showWeekNumbers={true}
+                onPressArrowLeft={substractMonth => substractMonth()}
+                onPressArrowRight={addMonth => addMonth()} />
 
-      <TouchableOpacity
-        onPress={() => this.setState({ dateTimeSelectorModal: undefined })}
-        style={modalBoxStyles.timePickerBtn}
-      >
+      <TouchableOpacity onPress={() => this.setState({ dateTimeSelectorModal: undefined })}
+                        style={modalBoxStyles.timePickerBtn}>
         <Text style={modalBoxStyles.timePickerBtn}>예약</Text>
       </TouchableOpacity>
 
@@ -155,7 +167,7 @@ export default class Reservation extends Component {
         }}
         onCancel={() => this.StartTimePicker.close()}
         onConfirm={(hour, minute) => {
-          this.setState({ selectedTime : `${hour}:${minute}` });
+          this.setState({ selectedTime : `${hour}:${minute}:00` });
           this.EndTimePicker.open();
           this.StartTimePicker.close()
         }}
@@ -170,7 +182,7 @@ export default class Reservation extends Component {
         }}
         onCancel={() => this.EndTimePicker.close()}
         onConfirm={(hour, minute) => {
-          this.setState({ selectedTime : `${this.state.selectedTime}-${hour}:${minute}` });
+          this.setState({ selectedTime : `${this.state.selectedTime} ~ ${hour}:${minute}:00` });
           this.EndTimePicker.close();
         }}
         hourInterval="1"
@@ -187,9 +199,9 @@ export default class Reservation extends Component {
     this.state.menuRecordSet.forEach((item) => {
       reservationItems.push(
           <MenuRecord menuPressed={() => console.log()}
-                      menuName={item.menuName}
-                      personCnt={item.personCnt}
-                      price={item.price}
+                      menuName={item.MenuName}
+                      personCnt={item.Personnel}
+                      price={item.Price}
           />
       );
     })
@@ -205,31 +217,27 @@ export default class Reservation extends Component {
 
         <View style={styles.container}>
           <ScrollView>
-            <Modal
-              isVisible={this.state.dateTimeSelectorModal === 2}
-              backdropColor={'white'}
-              backdropOpacity={1}
-              animationIn={'zoomInDown'}
-              animationOut={'zoomOutUp'}
-              animationInTiming={1000}
-              animationOutTiming={1000}
-              backdropTransitionInTiming={1000}
-              backdropTransitionOutTiming={1000}
-            >
+            <Modal isVisible={this.state.dateTimeSelectorModal === 2}
+                   backdropColor={'white'}
+                   backdropOpacity={1}
+                   animationIn={'zoomInDown'}
+                   animationOut={'zoomOutUp'}
+                   animationInTiming={1000}
+                   animationOutTiming={1000}
+                   backdropTransitionInTiming={1000}
+                   backdropTransitionOutTiming={1000}>
               {this.calendarModalRender()}
             </Modal>
 
-            <Modal
-              isVisible={this.state.menuModal === 2}
-              backdropColor={'white'}
-              backdropOpacity={1}
-              animationIn={'zoomInDown'}
-              animationOut={'zoomOutUp'}
-              animationInTiming={1000}
-              animationOutTiming={1000}
-              backdropTransitionInTiming={1000}
-              backdropTransitionOutTiming={1000}
-            >
+            <Modal isVisible={this.state.menuModal === 2}
+                   backdropColor={'white'}
+                   backdropOpacity={1}
+                   animationIn={'zoomInDown'}
+                   animationOut={'zoomOutUp'}
+                   animationInTiming={1000}
+                   animationOutTiming={1000}
+                   backdropTransitionInTiming={1000}
+                   backdropTransitionOutTiming={1000}>
               {this.menuModalRender()}
             </Modal>
 
@@ -252,21 +260,18 @@ export default class Reservation extends Component {
                 <DataTable.Title>예약자 정보 입력</DataTable.Title>
               </DataTable.Header>
 
-              <TextInput
-                  label='성함'
-                  value={this.state.name}
-                  onChangeText={name => this.setState({ name })}
-                  style={styles.textInput}
-                  placeholder='성함을 입력해주세요'
-              />
+              <TextInput label='성함'
+                         value={this.state.name}
+                         onChangeText={name => this.setState({ name })}
+                         style={styles.textInput}
+                         placeholder='성함을 입력해주세요'/>
 
-              <TextInput
-                label='핸드폰 번호'
-                  value={this.state.phoneNum}
-                  onChangeText={phoneNum => this.setState({ phoneNum })}
-                  style={styles.textInput}
-                  placeholder='핸드폰 번호를 입력해주세요'
-              />
+              <TextInput label='핸드폰 번호'
+                         value={this.state.phoneNum}
+                         onChangeText={phoneNum => this.setState({ phoneNum })}
+                         style={styles.textInput}
+                         placeholder='핸드폰 번호를 입력해주세요'/>
+
             </DataTable>
 
             <DataTable>

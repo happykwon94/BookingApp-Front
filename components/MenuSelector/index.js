@@ -10,20 +10,14 @@ export default class MenuSelector extends Component {
 
   constructor(props){
     super(props);
-
-    const { menus } = this.props;
-
-    this.state = {
-        menus: menus,
-    };
   }
 
   renderItem(menu, menuClickEvent) {
     return (
       <View>
         <Card>
-          <TouchableOpacity onPress={() => menuClickEvent(menu.menuName , menu.price)}>
-            <Card.Title title={menu.menuName} subtitle={`${menu.price}원`} left={(props) => <Avatar.Icon {...props} icon="folder" />} />
+          <TouchableOpacity onPress={() => menuClickEvent(menu.Name , menu.Price)}>
+            <Card.Title title={menu.Name} subtitle={`${menu.Price}원`} left={(props) => <Avatar.Icon {...props} icon="folder" />} />
           </TouchableOpacity>
         </Card>
         <Divider />
@@ -38,7 +32,7 @@ export default class MenuSelector extends Component {
       <>
         <FlatList renderItem={({ item }) => this.renderItem(item, menuClickEvent)}
                   keyExtractor={item => item}
-                  data={this.state.menus}
+                  data={menus}
         />
       </>
     );

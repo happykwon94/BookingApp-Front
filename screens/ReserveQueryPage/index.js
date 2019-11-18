@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import FixedTopBar from '../../components/FixedTopBar';
 
 // API URL
-const API_STORE_INFO = 'http://10.0.2.2:8080/.../...';
+const BACKEND_URL = 'http://10.0.2.2:8080/.../...';
 
 export default class ReserveQueryPage extends Component {
 

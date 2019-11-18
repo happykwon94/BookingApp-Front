@@ -5,7 +5,7 @@ import { Avatar, Button, Card, Title, Paragraph, Divider } from 'react-native-pa
 import FixedTopBar from '../../components/FixedTopBar';
 
 // API URL
-const API_STORES = 'http://10.0.2.2:8080/.../...';
+const BACKEND_URL = 'http://c00bfdae.ngrok.io';
 
 export default class StoreSelector extends Component {
 
@@ -17,35 +17,42 @@ export default class StoreSelector extends Component {
     super(props);
 
     this.state = {
-      stores: ["상점1", "상점2", "상점3"],
-    };
+      // {
+      //  SelfEmployedID: 11,
+      //  Address: "DummyAddress",
+      //  WorkPlaceInfo: "DummyInfo",
+      //  Name: "wdq",
+      //  Category: "DummyCategory"
+      // }
+      stores: []
+    }
   }
 
   async componentDidMount() {
-    // fetch(API_CATEGORIES)
-    // .then(response => response.json())
-    // .then(categories => {
-    //   // console.log('cities =', cities.length);
-    //   this.setState({
-    //     categories
-    //   });
-    // });
+    fetch(BACKEND_URL + '/stores/' + this.props.navigation.getParam('category', null))
+    .then(response => response.json())
+    .then(stores => {
+      this.setState({
+        stores: stores
+      });
+    });
   }
 
-  onPressItem(item) {
+  onPressItem(item, workPlaceID) {
     this.props.navigation.navigate(
       'StorePage',
       {
-        store: item
+        store: item,
+        workPlaceID: workPlaceID
       }
     );
   }
 
-  renderItem(store) {
+  renderItem(store, workPlaceID) {
     return (
       <View>
         <Card>
-          <TouchableOpacity onPress={() => this.onPressItem(store)}>
+          <TouchableOpacity onPress={() => this.onPressItem(store, workPlaceID)}>
             <Card.Title title={store} subtitle="대표 메뉴들..." left={(props) => <Avatar.Icon {...props} icon="folder" />} />
           </TouchableOpacity>
         </Card>
@@ -63,7 +70,7 @@ export default class StoreSelector extends Component {
         <FixedTopBar title={navigation.getParam('category', null)} iconStr="" />
         <ScrollView>
           <FlatList style={styles.container}
-                    renderItem={({ item }) => this.renderItem(item)}
+                    renderItem={({ item }) => this.renderItem(item.Name, item.WorkPlaceID)}
                     keyExtractor={item => item}
                     data={this.state.stores}
           />
@@ -72,7 +79,6 @@ export default class StoreSelector extends Component {
     );
   }
 }
-
 
 const styles = StyleSheet.create({
 

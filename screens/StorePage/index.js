@@ -7,7 +7,7 @@ import FixedTopBar from '../../components/FixedTopBar';
 import MenuSelector from '../../components/MenuSelector';
 
 // API URL
-const API_STORE_INFO = 'http://10.0.2.2:8080/.../...';
+const BACKEND_URL = 'http://c00bfdae.ngrok.io';
 
 export default class StorePage extends Component {
 
@@ -21,30 +21,59 @@ export default class StorePage extends Component {
     menuRecordSet: [],
 
     this.state = {
-      info: "상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명상점에 대한 설명",
+
+      // {
+      //  SelfEmployedID: 11,
+      //  Address: "DummyAddress",
+      //  WorkPlaceInfo: "DummyInfo",
+      //  Name: "wdq",
+      //  Category: "DummyCategory"
+      // }
+      SelfEmployedID: '',
+      Address: '',
+      WorkPlaceID: '',
+      Name: '',
+      Category: '',
+      WorkPlaceInfo: '',
+
       menus: [
-        { menuName: "메뉴1", price: 10000 },
-        { menuName: "메뉴2", price: 5000 }
+        // { menuName: "메뉴1", price: 10000 },
+        // { menuName: "메뉴2", price: 5000 }
       ],
     };
   }
 
   async componentDidMount() {
-    // fetch(API_CATEGORIES)
-    // .then(response => response.json())
-    // .then(categories => {
-    //   // console.log('cities =', cities.length);
-    //   this.setState({
-    //     categories
-    //   });
-    // });
+
+    fetch(BACKEND_URL + '/menu/' + this.props.navigation.getParam('workPlaceID', null))
+    .then(response => response.json())
+    .then(menus => {
+      this.setState({
+        menus: menus
+      });
+    });
+
+    fetch(BACKEND_URL + '/store/' + this.props.navigation.getParam('workPlaceID', null))
+    .then(response => response.json())
+    .then(storeInfo => {
+      this.setState({
+        SelfEmployedID: storeInfo.SelfEmployedID,
+        Address: storeInfo.Address,
+        WorkPlaceID: storeInfo.WorkPlaceID,
+        Name: storeInfo.Name,
+        Category: storeInfo.Category,
+        WorkPlaceInfo: storeInfo.WorkPlaceInfo,
+      });
+    });
   }
 
   toRervationPage() {
+
     this.props.navigation.navigate(
       'Reservation',
       {
         menus: this.state.menus,
+        workPlaceID: this.props.navigation.getParam('workPlaceID', null)
       }
     );
   };
@@ -64,7 +93,7 @@ export default class StorePage extends Component {
           <Card>
             <Card.Content>
               <Title>Store Information</Title>
-              <Paragraph>{this.state.info}</Paragraph>
+              <Paragraph>{this.state.WorkPlaceID}</Paragraph>
             </Card.Content>
           </Card>
 
