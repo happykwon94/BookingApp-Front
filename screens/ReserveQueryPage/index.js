@@ -25,14 +25,12 @@ export default class ReserveQueryPage extends Component {
   async componentDidMount() {}
 
   reserveQuery(){
-    // fetch(API_CATEGORIES)
-    // .then(response => response.json())
-    // .then(categories => {
-    //   // console.log('cities =', cities.length);
-    //   this.setState({
-    //     categories
-    //   });
-    // });
+    this.props.navigation.navigate(
+      'ReserveCheckPage',
+      {
+        reservationID: this.state.reservationID
+      }
+    );
   }
 
   render() {
@@ -69,7 +67,7 @@ const styles = StyleSheet.create({
   },
 
   container: {
-justifyContent: 'center',
+    justifyContent: 'center',
     flex: 1,
     backgroundColor: '#ffffff',
   },

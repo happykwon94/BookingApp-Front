@@ -17,13 +17,7 @@ export default class StoreSelector extends Component {
     super(props);
 
     this.state = {
-      // {
-      //  SelfEmployedID: 11,
-      //  Address: "DummyAddress",
-      //  WorkPlaceInfo: "DummyInfo",
-      //  Name: "wdq",
-      //  Category: "DummyCategory"
-      // }
+      //  SelfEmployedID, Address, WorkPlaceInfo, Name, Category
       stores: []
     }
   }

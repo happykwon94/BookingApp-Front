@@ -18,17 +18,8 @@ export default class StorePage extends Component {
   constructor(props) {
     super(props);
 
-    menuRecordSet: [],
-
     this.state = {
 
-      // {
-      //  SelfEmployedID: 11,
-      //  Address: "DummyAddress",
-      //  WorkPlaceInfo: "DummyInfo",
-      //  Name: "wdq",
-      //  Category: "DummyCategory"
-      // }
       SelfEmployedID: '',
       Address: '',
       WorkPlaceID: '',
@@ -36,10 +27,8 @@ export default class StorePage extends Component {
       Category: '',
       WorkPlaceInfo: '',
 
-      menus: [
-        // { menuName: "메뉴1", price: 10000 },
-        // { menuName: "메뉴2", price: 5000 }
-      ],
+      // 받아오는 API가 다름
+      menus: [],
     };
   }
 
