@@ -7,7 +7,7 @@ import NumericInput from 'react-native-numeric-input'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from 'react-native-axios'
-import DialogManager, { ScaleAnimation, DialogContent } from 'react-native-dialog-component';
+import DialogManager, { ScaleAnimation, DialogContent, DialogComponent, DialogTitle } from 'react-native-dialog-component';
 
 import FixedTopBar from '../../components/FixedTopBar';
 import MenuSelector from '../../components/MenuSelector';
@@ -67,14 +67,16 @@ export default class Reservation extends Component {
     let bg_hh = bg_time[0];
     let bg_mm = bg_time[1];
     let bg_ss = bg_time[2];
+    let beginningSelectedTime = new Date(yy, mm, dd, bg_hh, bg_mm, bg_ss).toISOString
+    let endSelectedTime = "undefined";
 
-    let ed_time = this.state.selectedTime.split(" ~ ")[1].split(":");
-    let ed_hh = ed_time[0];
-    let ed_mm = ed_time[1];
-    let ed_ss = ed_time[2];
-
-    let beginningSelectedTime = new Date(yy, mm, dd, bg_hh, bg_mm, bg_ss).toISOString();
-    let endSelectedTime = new Date(yy, mm, dd, ed_hh, ed_mm, ed_ss).toISOString();
+    if(this.state.selectedTime.split(" ~ ").length > 1) {
+      let ed_time = this.state.selectedTime.split(" ~ ")[1].split(":");
+      let ed_hh = ed_time[0];
+      let ed_mm = ed_time[1];
+      let ed_ss = ed_time[2];
+      let endSelectedTime = new Date(yy, mm, dd, ed_hh, ed_mm, ed_ss).toISOString();
+    }
 
     axios({
       method: 'post',
@@ -98,7 +100,6 @@ export default class Reservation extends Component {
 
     this.dialogComponent.show();
 
-    // this.toCategorySelector();
   }
 
   menuModalRender = () => (
@@ -300,13 +301,12 @@ export default class Reservation extends Component {
 
       <Appbar style={appBarStyles.bottomFixed}>
         <Appbar.Content titleStyle={styles.reserveBtn} title="예약하기" onPress={() => this.reserve()}/>
-        <Appbar.Content titleStyle={styles.reserveBtn} title="취소하기" onPress={() => console.log("2")}/>
+        <Appbar.Content titleStyle={styles.reserveBtn} title="취소하기" onPress={() => this.props.navigation.goBack()}/>
       </Appbar>
 
-      <DialogComponent
-        dialogTitle={<DialogTitle title="Dialog Title" />}
-        ref={(dialogComponent) => { this.dialogComponent = dialogComponent; }}
-      >
+      <DialogComponent dialogTitle={<DialogTitle title="Dialog Title" />}
+                       ref={(dialogComponent) => { this.dialogComponent = dialogComponent; }}
+                       onDismissed={() => this.toCategorySelector()}>
         <DialogContent>
           <View>
             <Text>예약을 완료했습니다. 초기화면으로 돌아갑니다.</Text>

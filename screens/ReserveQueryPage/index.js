@@ -39,13 +39,11 @@ export default class ReserveQueryPage extends Component {
         <FixedTopBar title={"예약 조회"} iconStr="" />
 
         <View style={styles.container}>
-          <TextInput
-              label='예약 ID'
-              value={this.state.reservationID}
-              onChangeText={reservationID => this.setState({ reservationID })}
-              style={styles.textInput}
-              placeholder='예약할 때 받았던 ID를 입력해주세요'
-          />
+          <TextInput label='예약 ID'
+                     value={this.state.reservationID}
+                     onChangeText={reservationID => this.setState({ reservationID })}
+                     style={styles.textInput}
+                     placeholder='예약할 때 받았던 ID를 입력해주세요' />
           <Button icon="" mode="contained" onPress={() => this.reserveQuery()}>
             조회
           </Button>
