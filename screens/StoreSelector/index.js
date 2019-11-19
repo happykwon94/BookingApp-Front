@@ -18,7 +18,7 @@ export default class StoreSelector extends Component {
 
     this.state = {
       isLoading: true,
-      //  SelfEmployedID, Address, WorkPlaceInfo, Name, Category
+      //  SelfEmployedID, Address, WorkPlaceInfo, Name, Category, Image
       stores: []
     }
   }
@@ -45,11 +45,16 @@ export default class StoreSelector extends Component {
   }
 
   renderItem(store, workPlaceID) {
+
+    const imageBinaryData = this.state.Image.File;
+
     return (
       <View>
         <Card>
           <TouchableOpacity onPress={() => this.onPressItem(store, workPlaceID)}>
-            <Card.Title title={store} subtitle="대표 메뉴들..." left={(props) => <Avatar.Icon {...props} icon="folder" />} />
+            <Card.Title title={store}
+                        subtitle="대표 메뉴들..."
+                        left={(props) => <Image source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />} />
           </TouchableOpacity>
         </Card>
         <Divider />
@@ -61,7 +66,9 @@ export default class StoreSelector extends Component {
 
     if (this.state.isLoading) {
       return (
-        <ActivityIndicator style={styles.ActivityIndicatorStyle} animating={true} color={Colors.blue200} />
+        <ActivityIndicator style={styles.ActivityIndicatorStyle}
+                           animating={true}
+                           color={Colors.blue200} />
       )
     }
 

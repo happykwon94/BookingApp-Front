@@ -29,6 +29,7 @@ export default class StorePage extends Component {
       Category: '',
       WorkPlaceInfo: '',
 
+      Image: '',
       // 받아오는 API가 다름
       menus: [],
     };
@@ -54,6 +55,7 @@ export default class StorePage extends Component {
         Name: storeInfo.Name,
         Category: storeInfo.Category,
         WorkPlaceInfo: storeInfo.WorkPlaceInfo,
+        Image: storeInfo.Image
       });
     });
 
@@ -79,11 +81,15 @@ export default class StorePage extends Component {
 
     if (this.state.isLoading) {
       return (
-        <ActivityIndicator style={styles.ActivityIndicatorStyle} animating={true} color={Colors.blue200} />
+        <ActivityIndicator style={styles.ActivityIndicatorStyle}
+                           animating={true}
+                           color={Colors.blue200} />
       )
     }
 
     const { navigation } = this.props;
+
+    const imageBinaryData = this.state.Image.File;
 
     return (
       <>
@@ -91,6 +97,7 @@ export default class StorePage extends Component {
 
         <ScrollView style={styles.container}>
           <Card>
+            <Card.Cover source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />
             <Card.Content>
               <Title>Store Information</Title>
               <Paragraph>{this.state.WorkPlaceID}</Paragraph>
@@ -144,8 +151,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 50,
-    // marginBottom은 BottomFixedAppbar의 높이가 되게 넣을 것
-
     // marginBottom은 BottomFixedAppbar의 높이가 되게 넣을 것
     backgroundColor: '#ffffff',
   },

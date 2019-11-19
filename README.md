@@ -1,11 +1,9 @@
 ### BookingServiceForSelfEmployed
 
-2019 Software Engineering Team Project
+2019 Software Engineering Team Project, Tested on Android 10
 
-### Development Environment
+### Dependency
 
-> Test on Android 10, Pixel 2
->
 > react 16.9.0
 >
 > react-native 0.61.2
@@ -35,7 +33,8 @@
 > react-native-modal
 > 
 > react-native-axios
-
+>
+> react-native-dialog-component
 
 ### How to use
 

@@ -140,7 +140,7 @@ export default class ReserveCheckPage extends Component {
 
         <Appbar style={appBarStyles.bottomFixed}>
           <Appbar.Content titleStyle={styles.reserveBtn} title="예약 변경" onPress={() => this.reserveChange()}/>
-          <Appbar.Content titleStyle={styles.reserveBtn} title="취소하기" onPress={() => console.log("2")}/>
+          <Appbar.Content titleStyle={styles.reserveBtn} title="예약 취소" onPress={() => console.log("2")}/>
         </Appbar>
       </>
     );
