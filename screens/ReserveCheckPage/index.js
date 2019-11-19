@@ -30,12 +30,14 @@ export default class ReserveCheckPage extends Component {
       WorkPlaceInfo: '',
       ReservedDateTime: '',
       EndDateTime: '',
-      Menu: []
+      Menu: [],
+
+      dateTimeSelectorModal: null,
+      menuModal: null,
     };
   }
 
   async componentDidMount() {
-    console.log(this.props.navigation.getParam('reservationID', null));
     fetch(BACKEND_URL + '/reservation/lookup/' + this.props.navigation.getParam('reservationID', null))
     .then(response => response.json())
     .then(reservation => {
@@ -52,12 +54,12 @@ export default class ReserveCheckPage extends Component {
 
   reserveChange() {
     axios({
-      method: 'post',
+      method: 'put',
       // fill this url
       url: BACKEND_URL + '/reservation/' + this.state.reservationID,
       data: {
-        ReservedDateTime: beginningSelectedTime,
-        EndDateTime: endSelectedTime,
+        ReservedDateTime: this.state.ReservedDateTime,
+        EndDateTime: this.state.EndDateTime,
         Menus: this.state.Menu,
       }
     });
@@ -73,6 +75,111 @@ export default class ReserveCheckPage extends Component {
     });
   }
 
+  menuModalRender = () => (
+    <>
+      <ScrollView>
+          <Card>
+            <Card.Content>
+              <Title>Menu Information</Title>
+            </Card.Content>
+          </Card>
+
+          <Divider />
+
+          <MenuSelector menus={this.props.navigation.getParam('menus', null)}
+                        menuClickEvent={(selectedMenuName, selectedMenuPrice) => {
+
+                          // Hack : menuName이 중복되면 에러
+                          let findingIndex = -1;
+                          for (let i = 0; i < this.state.Menu.length; i++){
+                            if(selectedMenuName === this.state.Menu[i].Name){
+                              findingIndex = i;
+                              break;
+                            }
+                          }
+
+                          let items = [...this.state.Menu];
+                          let item = {...items[findingIndex]};
+
+                          item = {
+                            MenuName: selectedMenuName,
+                            Price: selectedMenuPrice,
+                            Personnel: 1
+                          }
+
+                          items[findingIndex] = item;
+
+                          this.setState({
+                             Menu : items,
+                             menuModal: undefined
+                          });
+                        }
+                      }
+          />
+      </ScrollView>
+    </>
+  );
+
+  calendarModalRender = () => (
+    <>
+      <View style={modalBoxStyles.selectedDateTiemContainer}>
+        <Text style={modalBoxStyles.selectedDateTime}>예약 날짜 : {this.state.selectedDate}</Text>
+        <Text style={modalBoxStyles.selectedDateTime}>예약 시간 : {this.state.selectedTime}</Text>
+      </View>
+
+      <Calendar current={`${new Date().getFullYear()}-${new Date().getMonth() + 1}`}
+                minDate={`${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`}
+                onDayPress={
+                  (day) => {
+                    this.setState({ selectedDate : day.dateString });
+                    this.StartTimePicker.open();
+                   }
+                 }
+                monthFormat={'yyyy MM'}
+                hideExtraDays={true}
+                disableMonthChange={false}
+                firstDay={1}
+                hideDayNames={true}
+                showWeekNumbers={true}
+                onPressArrowLeft={substractMonth => substractMonth()}
+                onPressArrowRight={addMonth => addMonth()} />
+
+      <TouchableOpacity onPress={() => this.setState({ dateTimeSelectorModal: undefined })}
+                        style={modalBoxStyles.timePickerBtn}>
+        <Text style={modalBoxStyles.timePickerBtn}>예약 시간 변경</Text>
+      </TouchableOpacity>
+
+      {/* Start TimePicker */}
+      <TimePicker
+        ref={ref => {
+          this.StartTimePicker = ref;
+        }}
+        onCancel={() => this.StartTimePicker.close()}
+        onConfirm={(hour, minute) => {
+          this.setState({ selectedTime : `${hour}:${minute}:00` });
+          this.EndTimePicker.open();
+          this.StartTimePicker.close()
+        }}
+        hourInterval="1"
+        minuteInterval="30"
+      />
+
+      {/* End TimePicker */}
+      <TimePicker
+        ref={ref => {
+          this.EndTimePicker = ref;
+        }}
+        onCancel={() => this.EndTimePicker.close()}
+        onConfirm={(hour, minute) => {
+          this.setState({ selectedTime : `${this.state.selectedTime} ~ ${hour}:${minute}:00` });
+          this.EndTimePicker.close();
+        }}
+        hourInterval="1"
+        minuteInterval="30"
+      />
+    </>
+  );
+
   render() {
 
     if (this.state.isLoading) {
@@ -85,7 +192,7 @@ export default class ReserveCheckPage extends Component {
 
     this.state.Menu.forEach((item) => {
       reservationItems.push(
-          <MenuRecord menuPressed={() => console.log()}
+          <MenuRecord menuPressed={() => this.setState({ menuModal: 2 })}
                       menuName={item.MenuName}
                       personCnt={item.Personnel}
                       price={item.Price}

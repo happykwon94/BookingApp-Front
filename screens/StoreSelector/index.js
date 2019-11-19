@@ -94,7 +94,6 @@ export default class StoreSelector extends Component {
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     marginTop: 50,

@@ -239,8 +239,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 50,
-
-    // marginBottom은 BottomFixedAppbar의 높이가 되게 넣을 것
     backgroundColor: 'white',
   },
 

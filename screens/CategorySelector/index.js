@@ -144,6 +144,7 @@ const itemStyles = StyleSheet.create({
 });
 
 const appBarStyles = StyleSheet.create({
+
   topFixed: {
     position: 'absolute',
     left: 0,
@@ -173,4 +174,5 @@ const appBarStyles = StyleSheet.create({
     fontSize: 20,
     right: 5,
   }
+  
 });
