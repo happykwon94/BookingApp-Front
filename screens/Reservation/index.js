@@ -7,6 +7,7 @@ import NumericInput from 'react-native-numeric-input'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from 'react-native-axios'
+import DialogManager, { ScaleAnimation, DialogContent } from 'react-native-dialog-component';
 
 import FixedTopBar from '../../components/FixedTopBar';
 import MenuSelector from '../../components/MenuSelector';
@@ -94,6 +95,10 @@ export default class Reservation extends Component {
         Menus: this.state.menuRecordSet,
       }
     });
+
+    this.dialogComponent.show();
+
+    // this.toCategorySelector();
   }
 
   menuModalRender = () => (
@@ -190,6 +195,14 @@ export default class Reservation extends Component {
       />
     </>
   );
+
+  toCategorySelector(){
+    this.props.navigation.navigate(
+      'CategorySelector',
+      {
+      }
+    );
+  }
 
   render() {
     const { navigation } = this.props;
@@ -289,6 +302,17 @@ export default class Reservation extends Component {
         <Appbar.Content titleStyle={styles.reserveBtn} title="예약하기" onPress={() => this.reserve()}/>
         <Appbar.Content titleStyle={styles.reserveBtn} title="취소하기" onPress={() => console.log("2")}/>
       </Appbar>
+
+      <DialogComponent
+        dialogTitle={<DialogTitle title="Dialog Title" />}
+        ref={(dialogComponent) => { this.dialogComponent = dialogComponent; }}
+      >
+        <DialogContent>
+          <View>
+            <Text>예약을 완료했습니다. 초기화면으로 돌아갑니다.</Text>
+          </View>
+        </DialogContent>
+      </DialogComponent>
       </>
     );
   }
