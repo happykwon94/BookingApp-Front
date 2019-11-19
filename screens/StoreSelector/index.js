@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView, Image } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, Divider, ActivityIndicator, Colors } from 'react-native-paper';
 
 import FixedTopBar from '../../components/FixedTopBar';
@@ -49,7 +49,12 @@ export default class StoreSelector extends Component {
       <View>
         <Card>
           <TouchableOpacity onPress={() => this.onPressItem(store, workPlaceID)}>
-            <Card.Title title={store} subtitle="대표 메뉴들..." left={(props) => <Avatar.Icon {...props} icon="folder" />} />
+            <Card.Title style={cardtitle.title} title={store} subtitle="대표 메뉴들..." titleStyle={cardtitle.titleStyle} subtitleStyle={cardtitle.subtitleStyle}
+            left={(props) => 
+              <Image {...props} style={image.storeImage} source={require('./StoreTitle_folder/ChungChun_title.jpg')} >
+              </Image>}
+              >
+            </Card.Title>
           </TouchableOpacity>
         </Card>
         <Divider />
@@ -96,4 +101,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
+});
+
+const cardtitle = StyleSheet.create({
+  titleStyle: {
+    fontSize: 30,
+    fontFamily: 'BMJUA_ttf',
+    marginLeft: 60,
+  },
+  
+  subtitleStyle: {
+    fontSize: 20,
+    fontFamily: 'BMJUA_ttf',
+    marginLeft: 70,
+    marginTop: 10,
+  },
+  
+  title: {
+    backgroundColor: 'white',
+    height: 120,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
+  }
+
+});
+
+const image = StyleSheet.create({
+  storeImage: {
+    backgroundColor: 'white',
+    height: 100,
+    width: 100,
+    marginTop: 5,
+  }
 });
