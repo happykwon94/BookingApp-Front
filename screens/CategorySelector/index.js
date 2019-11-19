@@ -80,7 +80,6 @@ export default class CategorySelector extends Component {
   }
 }
 
-
 const styles = StyleSheet.create({
 
   container: {
@@ -93,10 +92,6 @@ const styles = StyleSheet.create({
     fontFamily: 'BMJUA_ttf',
     marginBottom: 10,
     fontSize: 16,
-  },
-
-  cardContainer:{
-    backgroundColor: 'black',
   },
 
   cityTitle: {
@@ -154,14 +149,14 @@ const appBarStyles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    backgroundColor: '#cfcfcf',
+    backgroundColor: '#3cb371',
   },
 
   titleStyle: {
     marginLeft: 15,
-    fontFamily: 'JejuGothic',
+    fontFamily: 'BMJUA_ttf',
     color: '#000000',
-    fontSize: 20,
+    fontSize: 25,
     flex: 1,
   },
 
@@ -174,8 +169,8 @@ const appBarStyles = StyleSheet.create({
   },
 
   serviceQueryBtn:{
-    fontFamily: 'JejuGothic',
-    fontSize: 14,
+    fontFamily: 'BMJUA_ttf',
+    fontSize: 20,
     right: 5,
   }
 });

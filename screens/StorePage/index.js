@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView, Image } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, Divider, Appbar, ActivityIndicator, Colors } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -96,27 +96,122 @@ export default class StorePage extends Component {
         <FixedTopBar title={navigation.getParam('store', null)} iconStr="" />
 
         <ScrollView style={styles.container}>
+    {/* 버전 1, 작은 이미지 , 설명, 설명
           <Card>
-            <Card.Cover source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />
-            <Card.Content>
-              <Title>Store Information</Title>
-              <Paragraph>{this.state.WorkPlaceID}</Paragraph>
+            <Card.Content style={cardcontent.introduceStore}>
+                <Image style={content.introduceStoreImage} source={require('./StoreMenu/test.png')}></Image>
+                <Divider style={content.layout,[{borderBottomWidth:1, borderBottomColor: '#EAEAEA'}]}>
+                  <Title style={content.introduceStoreTitle}>Store Information</Title>
+                  <Paragraph style={content.introduceStoreParagraph}>{this.state.WorkPlaceID}</Paragraph>
+                </Divider>
+            </Card.Content>
+          </Card>
+    */}
+
+    {/* 버전 2, 큰 이미지 , 밑에 설명*/}
+          <Card>
+            <Card.Content style={cardcontent.introduceStore}>
+                <Card.Cover source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />
+                {/*<Image style={content.introduceStoreImage} source={require('./StoreMenu/test.png')}></Image>*/}
+                <Divider style={content.layout,[{borderBottomWidth:1, borderBottomColor: '#EAEAEA'}]}>
+                  <Title style={content.introduceStoreTitle}>Store Information</Title>
+                  <Paragraph style={content.introduceStoreParagraph}>{this.state.WorkPlaceInfo}</Paragraph>
+                </Divider>
             </Card.Content>
           </Card>
 
-          <Divider />
+
+          <Divider style={[{borderBottomColor: 'black', borderBottomWidth: 1}]}/>
           <MenuSelector menus={this.state.menus}
                         menuClickEvent={() => console.log("dd")}/>
         </ScrollView>
 
-        <Appbar style={appBarStyles.bottomFixed}>
-          {/* <Icon name="wb-sunny" size={25} color="#ffffff" style={{marginLeft: 7}} /> */}
-          <Appbar.Action style={appBarStyles.iconsStyle} icon="arrow-forward" onPress={() => this.toRervationPage()} />
-        </Appbar>
+        <TouchableOpacity onPress={() => this.toRervationPage()}>
+          <View style={appBarStyles.bottomFixed}>
+            <View style={[{flex:1}]}></View>
+            <Text style={appBarStyles.text}>예약하기</Text>
+            <View style={[{flex:1}]}></View>
+          </View>
+        </TouchableOpacity>
       </>
     );
   }
 }
+
+/* 버전 1 Style
+const cardcontent = StyleSheet.create({
+  introduceStore: {
+    flexDirection: 'row',
+    height: 125,
+    backgroundColor: '#EAEAEA',
+    //or #DEF7DE
+  },
+});
+
+const content = StyleSheet.create({
+  layout:{
+    flexDirection: 'column',
+  },
+
+  introduceStoreImage: {
+    height: 100,
+    width: 100,
+  },
+
+  introduceStoreTitle:{
+    fontFamily: 'BMJUA_ttf',
+    marginTop: 10,
+    marginLeft: 25,
+    fontSize: 30,
+  },
+
+  introduceStoreParagraph: {
+    fontFamily: 'BMJUA_ttf',
+    marginLeft: 76,
+    marginTop: 10,
+    fontSize: 20,
+  },
+});
+*/
+
+const cardcontent = StyleSheet.create({
+  introduceStore: {
+    flexDirection: 'column',
+    height: 310,
+    backgroundColor: '#EAEAEA',
+    //or #DEF7DE
+  },
+});
+
+const content = StyleSheet.create({
+  layout:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  introduceStoreImage: {
+    height: 200,
+    width: 200,
+    marginLeft: '25%',
+    justifyContent: 'space-between',
+    resizeMode: 'contain',
+  },
+
+  introduceStoreTitle:{
+    fontFamily: 'BMJUA_ttf',
+    marginTop: 10,
+    marginLeft: 10,
+    fontSize: 30,
+    alignItems: 'center',
+  },
+
+  introduceStoreParagraph: {
+    fontFamily: 'BMJUA_ttf',
+    marginLeft: 15,
+    marginTop: 10,
+    fontSize: 20,
+  },
+});
 
 const appBarStyles = StyleSheet.create({
 
@@ -124,24 +219,17 @@ const appBarStyles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: '#cfcfcf',
+    height: 60,
+    backgroundColor: '#3cb371',
+    flexDirection: 'column',
   },
 
-  titleStyle: {
-    marginLeft: 15,
-    fontFamily: 'JejuGothic',
-    color: '#000000',
-    fontSize: 20,
-    flex: 1,
+  text:{
+    fontFamily: 'BMJUA_ttf',
+    color: '#EAEAEA',
+    fontSize: 40,
+    textAlign: 'center',
   },
-
-  iconsStartStyle: {
-    alignSelf: 'flex-start',
-  },
-
-  iconsEndStyle: {
-    alignSelf: 'flex-end',
-  }
 
 });
 
@@ -151,8 +239,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 50,
+
     // marginBottom은 BottomFixedAppbar의 높이가 되게 넣을 것
-    backgroundColor: '#ffffff',
+    backgroundColor: 'white',
   },
 
   ActivityIndicatorStyle:{
