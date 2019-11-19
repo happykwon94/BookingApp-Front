@@ -6,7 +6,7 @@ import { FlatGrid } from 'react-native-super-grid';
 import FixedTopBar from '../../components/FixedTopBar';
 
 // API URL
-const BACKEND_URL = 'http://10.0.2.2:8080/.../...';
+const BACKEND_URL = 'http://bookingapp.ga:3000';
 
 export default class CategorySelector extends Component {
 

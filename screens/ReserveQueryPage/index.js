@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import FixedTopBar from '../../components/FixedTopBar';
 
 // API URL
-const BACKEND_URL = 'http://10.0.2.2:8080/.../...';
+const BACKEND_URL = 'http://bookingapp.ga:3000';
 
 export default class ReserveQueryPage extends Component {
 
@@ -21,8 +21,6 @@ export default class ReserveQueryPage extends Component {
       reservationID: ''
     };
   }
-
-  async componentDidMount() {}
 
   reserveQuery(){
     this.props.navigation.navigate(
@@ -43,8 +41,8 @@ export default class ReserveQueryPage extends Component {
         <View style={styles.container}>
           <TextInput
               label='예약 ID'
-              value={this.state.name}
-              onChangeText={name => this.setState({ name })}
+              value={this.state.reservationID}
+              onChangeText={reservationID => this.setState({ reservationID })}
               style={styles.textInput}
               placeholder='예약할 때 받았던 ID를 입력해주세요'
           />

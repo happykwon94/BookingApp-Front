@@ -5,7 +5,7 @@ import { Avatar, Button, Card, Title, Paragraph, Divider, ActivityIndicator, Col
 import FixedTopBar from '../../components/FixedTopBar';
 
 // API URL
-const BACKEND_URL = 'http://c00bfdae.ngrok.io';
+const BACKEND_URL = 'http://bookingapp.ga:3000';
 
 export default class StoreSelector extends Component {
 

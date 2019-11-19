@@ -12,7 +12,7 @@ import FixedTopBar from '../../components/FixedTopBar';
 import MenuSelector from '../../components/MenuSelector';
 import MenuRecord from '../../components/MenuRecord';
 
-const BACKEND_URL = 'http://c00bfdae.ngrok.io';
+const BACKEND_URL = 'http://bookingapp.ga:3000';
 
 export default class Reservation extends Component {
 
