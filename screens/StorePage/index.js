@@ -115,7 +115,7 @@ export default class StorePage extends Component {
     {/* 버전 2, 큰 이미지 , 밑에 설명*/}
           <Card>
             <Card.Content style={cardcontent.introduceStore}>
-                {imageComponent}
+                {imageComponent}{/* imageComponent에 style={content.introduceStoreImage} 스타일 태그 속성 부여 */}
                 {/*<Image style={content.introduceStoreImage} source={require('./StoreMenu/test.png')}></Image>*/}
                 <Divider style={content.layout,[{borderBottomWidth:1, borderBottomColor: '#EAEAEA'}]}>
                   <Title style={content.introduceStoreTitle}>Store Information</Title>

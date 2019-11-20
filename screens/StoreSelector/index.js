@@ -60,8 +60,9 @@ export default class StoreSelector extends Component {
                         titleStyle={cardtitle.titleStyle}
                         subtitleStyle={cardtitle.subtitleStyle}
                         left={(props) => typeof store.Image == "undefined" ?
-                          <Avatar.Icon {...props} icon="folder" /> :
-                          <Image source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />}
+                          // <Avatar.Icon>에서 Image 태그로 수정
+                          <Image style={image.storeImage} source={require('./default_Image/default_store.png')}></Image> :
+                          <Image style={image.storeImage} source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />}
                           />
           </TouchableOpacity>
         </Card>
@@ -138,8 +139,8 @@ const cardtitle = StyleSheet.create({
 const image = StyleSheet.create({
   storeImage: {
     backgroundColor: 'white',
-    height: 100,
-    width: 100,
+    height: 110,
+    width: 110,
     marginTop: 5,
   }
 });
