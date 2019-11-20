@@ -53,7 +53,9 @@ export default class ReserveCheckPage extends Component {
   }
 
   reserveChange() {
+
     axios({
+      headers: {'Access-Control-Allow-Origin': '*'},
       method: 'put',
       // fill this url
       url: BACKEND_URL + '/reservation/' + this.state.reservationID,
@@ -67,7 +69,8 @@ export default class ReserveCheckPage extends Component {
 
   reserveCancel() {
     axios({
-      method: 'post',
+      headers: {'Access-Control-Allow-Origin': '*'},
+      method: 'delete',
       // fill this url
       url: BACKEND_URL + '/reservation/cancel/' + this.state.reservationID,
       data: {

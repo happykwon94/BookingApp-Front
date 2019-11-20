@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView, Image } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
 import { Appbar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -15,8 +15,10 @@ export default class MenuSelector extends Component {
   // menu.Image.File
   renderItem(menu, menuClickEvent) {
 
+    let imageBinaryData = "";
+    
     if (typeof menu.Image != "undefined"){
-      const imageBinaryData = menu.Image.File;
+      imageBinaryData = menu.Image.File;
     }
 
     return (
@@ -27,7 +29,8 @@ export default class MenuSelector extends Component {
                         subtitle={`${menu.Price} 원`}
                         left={(props) => typeof menu.Image == "undefined" ?
                           <Avatar.Icon {...props} icon="folder" /> :
-                          <Image source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />}
+                          <Image style ={{width: 50, height: 50}}
+                                 source={{uri: `data:image/png;base64,${imageBinaryData}`}} />}
                           />
           </TouchableOpacity>
         </Card>
