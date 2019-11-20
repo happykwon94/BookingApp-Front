@@ -16,7 +16,7 @@ export default class MenuSelector extends Component {
   renderItem(menu, menuClickEvent) {
 
     let imageBinaryData = "";
-    
+
     if (typeof menu.Image != "undefined"){
       imageBinaryData = menu.Image.File;
     }
@@ -29,16 +29,11 @@ export default class MenuSelector extends Component {
                         title={menu.Name}
                         titleStyle={cardtitle.title}
                         subtitle={`${menu.Price} 원`}
-                        subtitleStyle={cardtitle.subtitle} 
+                        subtitleStyle={cardtitle.subtitle}
                         left={(props) => typeof menu.Image == "undefined" ?
-                          /*<Avatar.Icon> 대신에 <Image> default Imgae 사용*/
-                          <Image style={image.imageStyle} source={require('./default_Image/default_image.png')}></Image> :
-                          /* 테스트용 이미지 */ <Image style={image.imageStyle} source={require('./default_Image/default_image.png')}></Image>
-                          //<Image Image style={image.imageStyle} source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />
-                        }>
-
-                      </Card.Title>
-
+                          <Image style={image.imageStyle} source={require('./default_Image/default_image.png')} /> :
+                          <Image Image style={image.imageStyle} source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />}
+                        />
           </TouchableOpacity>
         </Card>
         <Divider />
@@ -73,7 +68,7 @@ const cardtitle = new StyleSheet.create({
     fontSize: 25,
     fontFamily: 'BMJUA_ttf',
   },
-  
+
   subtitle:{
     marginLeft: 60,
     fontSize: 20,

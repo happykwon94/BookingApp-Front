@@ -8,21 +8,26 @@ export default class MenuRecord extends Component {
   constructor(props) {
     super(props);
 
-    const { menuName, personCnt, price } = this.props;
+    const { menuName, price, personCnt } = this.props;
 
     this.state = {
-        personCnt: personCnt,
         menuName: menuName,
-        price: price
+        price: price,
+        personCnt: personCnt
     };
   }
 
   spinboxChangeEvt(value){
-    this.setState({ personCnt : value });
+
+    const { callback } = this.props;
+
+    this.setState({personCnt: value});
+
+    callback(this.props.index, value);
   }
 
   render() {
-    const { menuPressed } = this.props;
+    const { menuPressed, personCnt, callback } = this.props;
 
     return (
       <>
@@ -36,7 +41,7 @@ export default class MenuRecord extends Component {
 
         <NumericInput
            value={this.state.personCnt}
-           onChange={value => this.spinboxChangeEvt(value)}
+           onChange={value => { this.spinboxChangeEvt(value);}}
            totalWidth={105}
            totalHeight={45}
            iconSize={25}
