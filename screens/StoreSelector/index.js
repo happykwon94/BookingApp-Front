@@ -44,18 +44,20 @@ export default class StoreSelector extends Component {
     );
   }
 
-  renderItem(store, workPlaceID) {
+  renderItem(store) {
+
+    let imageBinaryData = "";
 
     if(typeof store.Image != "undefined"){
-      const imageBinaryData = this.state.Image.File;
+      imageBinaryData = store.Image.File;
     }
 
     return (
       <View>
         <Card>
-          <TouchableOpacity onPress={() => this.onPressItem(store, workPlaceID)}>
+          <TouchableOpacity onPress={() => this.onPressItem(store.Name, store.WorkPlaceID)}>
             <Card.Title style={cardtitle.title}
-                        title={store}
+                        title={store.Name}
                         subtitle="대표 메뉴들..."
                         titleStyle={cardtitle.titleStyle}
                         subtitleStyle={cardtitle.subtitleStyle}
@@ -63,7 +65,7 @@ export default class StoreSelector extends Component {
                           // <Avatar.Icon>에서 Image 태그로 수정
                           <Image style={image.storeImage} source={require('./default_Image/default_store.png')}></Image> :
                           <Image style={image.storeImage} source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />}
-                          />
+                        />
           </TouchableOpacity>
         </Card>
         <Divider />
@@ -88,7 +90,7 @@ export default class StoreSelector extends Component {
         <FixedTopBar title={navigation.getParam('category', null)} iconStr="" />
         <ScrollView>
           <FlatList style={styles.container}
-                    renderItem={({ item }) => this.renderItem(item.Name, item.WorkPlaceID)}
+                    renderItem={({ item }) => this.renderItem(item)}
                     keyExtractor={item => item}
                     data={this.state.stores}
           />

@@ -54,7 +54,7 @@ export default class Reservation extends Component {
     let bg_hh = bg_time[0];
     let bg_mm = bg_time[1];
     let bg_ss = bg_time[2];
-    let beginningSelectedTime = new Date(yy, mm, dd, bg_hh, bg_mm, bg_ss).toISOString
+    let beginningSelectedTime = new Date(yy, mm, dd, bg_hh, bg_mm, bg_ss).toISOString();
     let endSelectedTime = "undefined";
 
     if(this.state.selectedTime.split(" ~ ").length > 1) {
@@ -62,10 +62,14 @@ export default class Reservation extends Component {
       let ed_hh = ed_time[0];
       let ed_mm = ed_time[1];
       let ed_ss = ed_time[2];
-      let endSelectedTime = new Date(yy, mm, dd, ed_hh, ed_mm, ed_ss).toISOString();
+      endSelectedTime = new Date(yy, mm, dd, ed_hh, ed_mm, ed_ss).toISOString();
     }
 
+    console.log(beginningSelectedTime);
+    console.log(endSelectedTime);
+
     axios({
+      headers: {'Access-Control-Allow-Origin': '*'},
       method: 'post',
       // fill this url
       url: BACKEND_URL + '/reservation',

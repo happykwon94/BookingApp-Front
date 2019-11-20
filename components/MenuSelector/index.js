@@ -15,8 +15,10 @@ export default class MenuSelector extends Component {
   // menu.Image.File
   renderItem(menu, menuClickEvent) {
 
+    let imageBinaryData = "";
+    
     if (typeof menu.Image != "undefined"){
-      const imageBinaryData = menu.Image.File;
+      imageBinaryData = menu.Image.File;
     }
 
     return (
@@ -34,7 +36,7 @@ export default class MenuSelector extends Component {
                           /* 테스트용 이미지 */ <Image style={image.imageStyle} source={require('./default_Image/default_image.png')}></Image>
                           //<Image Image style={image.imageStyle} source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />
                         }
-                          />
+
           </TouchableOpacity>
         </Card>
         <Divider />

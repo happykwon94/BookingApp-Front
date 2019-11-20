@@ -22,14 +22,8 @@ export default class StorePage extends Component {
 
       isLoading: true,
 
-      SelfEmployedID: '',
-      Address: '',
-      WorkPlaceID: '',
-      Name: '',
-      Category: '',
-      WorkPlaceInfo: '',
+      StoreInfo: "",
 
-      Image: '',
       // 받아오는 API가 다름
       menus: [],
     };
@@ -37,7 +31,7 @@ export default class StorePage extends Component {
 
   async componentDidMount() {
 
-    fetch(BACKEND_URL + '/menu/' + this.props.navigation.getParam('workPlaceID', null))
+    await fetch(BACKEND_URL + '/menu/' + this.props.navigation.getParam('workPlaceID', null))
     .then(response => response.json())
     .then(menus => {
       this.setState({
@@ -45,17 +39,11 @@ export default class StorePage extends Component {
       });
     });
 
-    fetch(BACKEND_URL + '/store/' + this.props.navigation.getParam('workPlaceID', null))
+    await fetch(BACKEND_URL + '/store/' + this.props.navigation.getParam('workPlaceID', null))
     .then(response => response.json())
     .then(storeInfo => {
       this.setState({
-        SelfEmployedID: storeInfo.SelfEmployedID,
-        Address: storeInfo.Address,
-        WorkPlaceID: storeInfo.WorkPlaceID,
-        Name: storeInfo.Name,
-        Category: storeInfo.Category,
-        WorkPlaceInfo: storeInfo.WorkPlaceInfo,
-        Image: storeInfo.Image
+        StoreInfo: storeInfo
       });
     });
 
@@ -90,9 +78,16 @@ export default class StorePage extends Component {
     const { navigation } = this.props;
     const imageComponent = [];
 
-    if (typeof this.state.Image != "undefined"){
-      const imageBinaryData = this.state.Image.File;
-      imageComponent.push(<Card.Cover source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />);
+    let imageBinaryData = "";
+
+    if (typeof this.state.StoreInfo[0].Image != "undefined"){
+
+      imageBinaryData = this.state.StoreInfo[0].Image.File;
+
+      imageComponent.push(
+        <Card.Cover source={{uri: `data:image/gif;base64,${imageBinaryData}`}}
+        />
+      );
     }
 
     return (
@@ -100,26 +95,13 @@ export default class StorePage extends Component {
         <FixedTopBar title={navigation.getParam('store', null)} iconStr="" />
 
         <ScrollView style={styles.container}>
-    {/* 버전 1, 작은 이미지 , 설명, 설명
           <Card>
             <Card.Content style={cardcontent.introduceStore}>
-                <Image style={content.introduceStoreImage} source={require('./StoreMenu/test.png')}></Image>
-                <Divider style={content.layout,[{borderBottomWidth:1, borderBottomColor: '#EAEAEA'}]}>
-                  <Title style={content.introduceStoreTitle}>Store Information</Title>
-                  <Paragraph style={content.introduceStoreParagraph}>{this.state.WorkPlaceID}</Paragraph>
-                </Divider>
-            </Card.Content>
-          </Card>
-    */}
-
-    {/* 버전 2, 큰 이미지 , 밑에 설명*/}
-          <Card>
-            <Card.Content style={cardcontent.introduceStore}>
-                {imageComponent}{/* imageComponent에 style={content.introduceStoreImage} 스타일 태그 속성 부여 */}
                 {/*<Image style={content.introduceStoreImage} source={require('./StoreMenu/test.png')}></Image>*/}
                 <Divider style={content.layout,[{borderBottomWidth:1, borderBottomColor: '#EAEAEA'}]}>
                   <Title style={content.introduceStoreTitle}>Store Information</Title>
-                  <Paragraph style={content.introduceStoreParagraph}>{this.state.WorkPlaceInfo}</Paragraph>
+                  {imageComponent}
+                  <Paragraph style={content.introduceStoreParagraph}>{this.state.StoreInfo[0].WorkPlaceInfo}</Paragraph>
                 </Divider>
             </Card.Content>
           </Card>
@@ -236,7 +218,6 @@ const appBarStyles = StyleSheet.create({
   },
 
 });
-
 
 const styles = StyleSheet.create({
 
