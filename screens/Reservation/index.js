@@ -65,9 +65,6 @@ export default class Reservation extends Component {
       endSelectedTime = new Date(yy, mm, dd, ed_hh, ed_mm, ed_ss).toISOString();
     }
 
-    console.log(beginningSelectedTime);
-    console.log(endSelectedTime);
-
     axios({
       headers: {'Access-Control-Allow-Origin': '*'},
       method: 'post',
@@ -90,7 +87,6 @@ export default class Reservation extends Component {
     });
 
     this.dialogComponent.show();
-
   }
 
   menuModalRender = () => (
@@ -196,19 +192,32 @@ export default class Reservation extends Component {
     );
   }
 
+  updatePersonCnt(childIndex, index, newCnt){
+
+    this.state.menuRecordSet[childIndex].Personnel = newCnt;
+
+    this.forceUpdate();
+
+    console.log(this.state.menuRecordSet);
+  }
+
   render() {
     const { navigation } = this.props;
 
     let reservationItems = [];
 
+    let index = 0;
     this.state.menuRecordSet.forEach((item) => {
       reservationItems.push(
           <MenuRecord menuPressed={() => console.log()}
                       menuName={item.MenuName}
                       personCnt={item.Personnel}
                       price={item.Price}
+                      index={index}
+                      callback={(childIndex, updatedCnt) => this.updatePersonCnt(childIndex, index, updatedCnt)}
           />
       );
+      index += 1;
     })
 
     return (

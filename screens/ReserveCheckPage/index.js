@@ -3,9 +3,12 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView } from '
 import { Avatar, Button, Card, Title, Paragraph, Divider, DataTable, Appbar, TextInput, ActivityIndicator, Colors } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from 'react-native-axios'
+import NumericInput from 'react-native-numeric-input'
 
 import FixedTopBar from '../../components/FixedTopBar';
 import MenuRecord from '../../components/MenuRecord';
+
+import DialogManager, { ScaleAnimation, DialogContent, DialogComponent, DialogTitle } from 'react-native-dialog-component';
 
 // API URL
 const BACKEND_URL = 'http://bookingapp.ga:3000';
@@ -53,7 +56,6 @@ export default class ReserveCheckPage extends Component {
   }
 
   reserveChange() {
-
     axios({
       headers: {'Access-Control-Allow-Origin': '*'},
       method: 'put',
@@ -62,9 +64,12 @@ export default class ReserveCheckPage extends Component {
       data: {
         ReservedDateTime: this.state.ReservedDateTime,
         EndDateTime: this.state.EndDateTime,
-        Menus: this.state.Menu,
+        Menu: this.state.Menu,
       }
     });
+
+    this.dialogComponent.show();
+
   }
 
   reserveCancel() {
@@ -76,6 +81,8 @@ export default class ReserveCheckPage extends Component {
       data: {
       }
     });
+
+    this.cancelDialogComponent.show();
   }
 
   menuModalRender = () => (
@@ -92,7 +99,6 @@ export default class ReserveCheckPage extends Component {
           <MenuSelector menus={this.props.navigation.getParam('menus', null)}
                         menuClickEvent={(selectedMenuName, selectedMenuPrice) => {
 
-                          // Hack : menuName이 중복되면 에러
                           let findingIndex = -1;
                           for (let i = 0; i < this.state.Menu.length; i++){
                             if(selectedMenuName === this.state.Menu[i].Name){
@@ -101,21 +107,10 @@ export default class ReserveCheckPage extends Component {
                             }
                           }
 
-                          let items = [...this.state.Menu];
-                          let item = {...items[findingIndex]};
+                          this.state.Menu[findingIndex].MenuName = selectedMenuName;
+                          this.state.Menu[findingIndex].Price = selectedMenuPrice;
 
-                          item = {
-                            MenuName: selectedMenuName,
-                            Price: selectedMenuPrice,
-                            Personnel: 1
-                          }
-
-                          items[findingIndex] = item;
-
-                          this.setState({
-                             Menu : items,
-                             menuModal: undefined
-                          });
+                          this.forceUpdate();
                         }
                       }
           />
@@ -183,6 +178,23 @@ export default class ReserveCheckPage extends Component {
     </>
   );
 
+  toCategorySelector(){
+    this.props.navigation.navigate(
+      'CategorySelector',
+      {
+      }
+    );
+  }
+
+  updatePersonCnt(childIndex, index, newCnt){
+
+    this.state.Menu[childIndex].Personnel = newCnt;
+
+    this.forceUpdate();
+
+    console.log(this.state.Menu);
+  }
+
   render() {
 
     if (this.state.isLoading) {
@@ -193,15 +205,23 @@ export default class ReserveCheckPage extends Component {
 
     let reservationItems = [];
 
+    let index = 0;
+
     this.state.Menu.forEach((item) => {
       reservationItems.push(
-          <MenuRecord menuPressed={() => this.setState({ menuModal: 2 })}
-                      menuName={item.MenuName}
-                      personCnt={item.Personnel}
-                      price={item.Price}
-          />
+          <>
+            <MenuRecord menuPressed={() => console.log()}
+                        menuName={item.MenuName}
+                        personCnt={item.Personnel}
+                        price={item.Price}
+                        index={index}
+                        callback={(childIndex, updatedCnt) => this.updatePersonCnt(childIndex, index, updatedCnt)}
+            />
+          </>
       );
+      index += 1;
     })
+
 
     const { navigation } = this.props;
 
@@ -252,6 +272,26 @@ export default class ReserveCheckPage extends Component {
           <Appbar.Content titleStyle={styles.reserveBtn} title="예약 변경" onPress={() => this.reserveChange()}/>
           <Appbar.Content titleStyle={styles.reserveBtn} title="예약 취소" onPress={() => console.log("2")}/>
         </Appbar>
+
+        <DialogComponent dialogTitle={<DialogTitle title="Dialog Title" />}
+                         ref={(dialogComponent) => { this.dialogComponent = dialogComponent; }}
+                         onDismissed={() => this.toCategorySelector()}>
+          <DialogContent>
+            <View>
+              <Text>예약 변경을 완료했습니다. 초기화면으로 돌아갑니다.</Text>
+            </View>
+          </DialogContent>
+        </DialogComponent>
+
+        <DialogComponent dialogTitle={<DialogTitle title="Dialog Title" />}
+                         ref={(dialogComponent) => { this.cancelDialogComponent = dialogComponent; }}
+                         onDismissed={() => this.toCategorySelector()}>
+          <DialogContent>
+            <View>
+              <Text>예약 취소를 완료했습니다. 초기화면으로 돌아갑니다.</Text>
+            </View>
+          </DialogContent>
+        </DialogComponent>
       </>
     );
   }
@@ -292,7 +332,7 @@ const appBarStyles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    backgroundColor: '#cfcfcf',
+    backgroundColor: '#3cb371',
   },
 
   bottomFixed: {
@@ -300,12 +340,12 @@ const appBarStyles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: '#cfcfcf',
+    backgroundColor: '#3cb371',
   },
 
   titleStyle: {
     marginLeft: 15,
-    fontFamily: 'JejuGothic',
+    fontFamily: 'BMJUA_ttf',
     color: '#000000',
     fontSize: 20,
     flex: 1,
