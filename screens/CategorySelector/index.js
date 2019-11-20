@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView, Image } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, ScrollView, Image} from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, Divider, Appbar } from 'react-native-paper';
 import { FlatGrid } from 'react-native-super-grid';
 
@@ -55,7 +55,7 @@ export default class CategorySelector extends Component {
     return (
       <>
         <Appbar style={appBarStyles.topFixed}>
-          <Text style={appBarStyles.titleStyle}>{"서비스 카테고리 선택"}</Text>
+          <Text style={appBarStyles.titleStyle}>{"자리있나요?"}</Text>
           <TouchableOpacity onPress={() => this.toReserveQueryPage()}>
             <Text style={appBarStyles.serviceQueryBtn}>{"예약 조회"}</Text>
           </TouchableOpacity>

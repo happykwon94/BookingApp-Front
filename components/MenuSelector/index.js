@@ -25,13 +25,18 @@ export default class MenuSelector extends Component {
       <View>
         <Card>
           <TouchableOpacity onPress={() => menuClickEvent(menu.Name , menu.Price)}>
-            <Card.Title title={menu.Name}
+            <Card.Title style={cardtitle.card}
+                        title={menu.Name}
+                        titleStyle={cardtitle.title}
                         subtitle={`${menu.Price} 원`}
+                        subtitleStyle={cardtitle.subtitle} 
                         left={(props) => typeof menu.Image == "undefined" ?
-                          <Avatar.Icon {...props} icon="folder" /> :
-                          <Image style ={{width: 50, height: 50}}
-                                 source={{uri: `data:image/png;base64,${imageBinaryData}`}} />}
-                          />
+                          /*<Avatar.Icon> 대신에 <Image> default Imgae 사용*/
+                          <Image style={image.imageStyle} source={require('./default_Image/default_image.png')}></Image> :
+                          /* 테스트용 이미지 */ <Image style={image.imageStyle} source={require('./default_Image/default_image.png')}></Image>
+                          //<Image Image style={image.imageStyle} source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />
+                        }
+
           </TouchableOpacity>
         </Card>
         <Divider />
@@ -52,3 +57,32 @@ export default class MenuSelector extends Component {
     );
   }
 }
+
+const cardtitle = new StyleSheet.create({
+  card: {
+    backgroundColor: '#ffffff',
+    height: 100,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
+  },
+
+  title: {
+    marginLeft: 50,
+    fontSize: 25,
+    fontFamily: 'BMJUA_ttf',
+  },
+  
+  subtitle:{
+    marginLeft: 60,
+    fontSize: 20,
+    marginTop: 10,
+    fontFamily: 'BMJUA_ttf',
+  }
+});
+
+const image = new StyleSheet.create({
+  imageStyle: {
+    height: 85,
+    width: 85,
+  }
+});

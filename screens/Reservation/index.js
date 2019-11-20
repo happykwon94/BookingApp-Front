@@ -292,6 +292,7 @@ export default class Reservation extends Component {
 
       <Appbar style={appBarStyles.bottomFixed}>
         <Appbar.Content titleStyle={styles.reserveBtn} title="예약하기" onPress={() => this.reserve()}/>
+        <Divider style={[{borderColor: 'black', borderWidth: 1, height: 25}]}></Divider>
         <Appbar.Content titleStyle={styles.reserveBtn} title="취소하기" onPress={() => this.props.navigation.goBack()}/>
       </Appbar>
 
@@ -318,7 +319,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontFamily: 'JejuGothic',
+    fontFamily: 'BMJUA_ttf',
     marginBottom: 10,
     fontSize: 16,
   },
@@ -338,9 +339,9 @@ const styles = StyleSheet.create({
   },
 
   reserveBtn: {
-    fontSize: 18,
+    fontSize: 20,
     textAlign: 'center',
-    fontFamily: 'JejuGothic'
+    fontFamily: 'BMJUA_ttf',
   },
 
   textInput: {
@@ -355,7 +356,7 @@ const appBarStyles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    backgroundColor: '#cfcfcf',
+    backgroundColor: '#3cb371',
   },
 
   bottomFixed: {
@@ -363,14 +364,14 @@ const appBarStyles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: '#cfcfcf',
+    backgroundColor: '#3cb371',
   },
 
   titleStyle: {
     marginLeft: 15,
-    fontFamily: 'JejuGothic',
+    fontFamily: 'BMJUA_ttf',
     color: '#000000',
-    fontSize: 20,
+    fontSize: 25,
     flex: 1,
   },
 
