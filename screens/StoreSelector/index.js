@@ -141,8 +141,8 @@ const cardtitle = StyleSheet.create({
 const image = StyleSheet.create({
   storeImage: {
     backgroundColor: 'white',
-    height: 110,
-    width: 110,
+    height: 100,
+    width: 100,
     marginTop: 5,
   }
 });

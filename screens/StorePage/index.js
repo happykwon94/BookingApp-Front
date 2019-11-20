@@ -188,6 +188,7 @@ const content = StyleSheet.create({
     marginTop: 10,
     marginLeft: 10,
     fontSize: 30,
+    marginBottom: 10,
     alignItems: 'center',
   },
 
