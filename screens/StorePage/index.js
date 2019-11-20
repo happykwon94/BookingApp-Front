@@ -88,8 +88,12 @@ export default class StorePage extends Component {
     }
 
     const { navigation } = this.props;
+    const imageComponent = [];
 
-    const imageBinaryData = this.state.Image.File;
+    if (typeof this.state.Image != "undefined"){
+      const imageBinaryData = this.state.Image.File;
+      imageComponent.push(<Card.Cover source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />);
+    }
 
     return (
       <>
@@ -111,7 +115,7 @@ export default class StorePage extends Component {
     {/* 버전 2, 큰 이미지 , 밑에 설명*/}
           <Card>
             <Card.Content style={cardcontent.introduceStore}>
-                <Card.Cover source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />
+                {imageComponent}
                 {/*<Image style={content.introduceStoreImage} source={require('./StoreMenu/test.png')}></Image>*/}
                 <Divider style={content.layout,[{borderBottomWidth:1, borderBottomColor: '#EAEAEA'}]}>
                   <Title style={content.introduceStoreTitle}>Store Information</Title>

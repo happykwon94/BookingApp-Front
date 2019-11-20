@@ -15,7 +15,9 @@ export default class MenuSelector extends Component {
   // menu.Image.File
   renderItem(menu, menuClickEvent) {
 
-    const imageBinaryData = menu.Image.File;
+    if (typeof menu.Image != "undefined"){
+      const imageBinaryData = menu.Image.File;
+    }
 
     return (
       <View>
@@ -23,7 +25,10 @@ export default class MenuSelector extends Component {
           <TouchableOpacity onPress={() => menuClickEvent(menu.Name , menu.Price)}>
             <Card.Title title={menu.Name}
                         subtitle={`${menu.Price} 원`}
-                        left={(props) => <Image source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />} />
+                        left={(props) => typeof menu.Image == "undefined" ?
+                          <Avatar.Icon {...props} icon="folder" /> :
+                          <Image source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />}
+                          />
           </TouchableOpacity>
         </Card>
         <Divider />

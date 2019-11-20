@@ -46,7 +46,9 @@ export default class StoreSelector extends Component {
 
   renderItem(store, workPlaceID) {
 
-    const imageBinaryData = this.state.Image.File;
+    if(typeof store.Image != "undefined"){
+      const imageBinaryData = this.state.Image.File;
+    }
 
     return (
       <View>
@@ -57,8 +59,10 @@ export default class StoreSelector extends Component {
                         subtitle="대표 메뉴들..."
                         titleStyle={cardtitle.titleStyle}
                         subtitleStyle={cardtitle.subtitleStyle}
-                        left={(props) => <Image source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />} />
-            </Card.Title>
+                        left={(props) => typeof store.Image == "undefined" ?
+                          <Avatar.Icon {...props} icon="folder" /> :
+                          <Image source={{uri: `data:image/gif;base64,${imageBinaryData}`}} />}
+                          />
           </TouchableOpacity>
         </Card>
         <Divider />

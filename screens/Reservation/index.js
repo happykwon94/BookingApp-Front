@@ -34,26 +34,13 @@ export default class Reservation extends Component {
       selectedTime: "",
       selectedDate: "",
 
-      // Name, Price, PersonCnt
+      // Name, Price, PersonCnt, File
       menuRecordSet: [],
 
       // modal 창을 띄우기 위한 플래그 변수
       dateTimeSelectorModal: null,
       menuModal: null,
     };
-  }
-
-  renderItem(menu) {
-    return (
-      <View>
-        <Card>
-          <TouchableOpacity onPress={() => this.onPressItem(menu)}>
-            <Card.Title title={menu} subtitle="대표 메뉴들..." left={(props) => <Avatar.Icon {...props} icon="folder" />} />
-          </TouchableOpacity>
-        </Card>
-        <Divider />
-      </View>
-    );
   }
 
   reserve(){
